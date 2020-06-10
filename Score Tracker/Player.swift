@@ -8,8 +8,10 @@
 
 import UIKit
 
+
 class Player {
     var name: String
+    var pastRanks = [1]
     var pastPoints = [0]
     
     init(name: String) {

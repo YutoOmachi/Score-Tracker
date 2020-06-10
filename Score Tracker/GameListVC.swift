@@ -23,7 +23,9 @@ class GameListVC: UIViewController {
     
     func setNavController() {
         self.title = "List of Games"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationColor
+        self.navigationController?.navigationBar.tintColor = UIColor.white
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewGame))
     }
     
@@ -45,13 +47,13 @@ class GameListVC: UIViewController {
 
 extension GameListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gameNames.count
+        return games.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "GameCell", for: indexPath) as? GameCell {
-            cell.gameNameLabel.text = gameNames[indexPath.row]
-            cell.playerLabel.text = "\(numPlayers[indexPath.row]) players"
+            cell.gameNameLabel.text = games[indexPath.row].title
+            cell.playerLabel.text = "\(games[indexPath.row].players.count) players"
             return cell
         }
         return UITableViewCell()
@@ -87,14 +89,37 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
         ac.addTextField()
         ac.addAction(UIAlertAction(title: "Add more players", style: .default){[weak self] _ in
             if let playerName = ac.textFields?[0].text {
-                self?.games[0].players.append(Player(name: playerName))
+                if !playerName.isEmpty{
+                    self?.games[0].players.append(Player(name: playerName))
+                }
             }
             self?.addPlayer()
         })
         ac.addAction(UIAlertAction(title: "Make Game!", style: .default){[weak self] _ in
+            if let playerName = ac.textFields?[0].text {
+                if !playerName.isEmpty{
+                    self?.games[0].players.append(Player(name: playerName))
+                }
+            }
+            
+            if self?.games[0].players.count ?? 0 < 1 {
+                self?.errorNotEnoughPlayers()
+                return
+            }
+            
+
             let VC = PlayerListVC()
             VC.game = self?.games[0]
             self?.navigationController?.pushViewController(VC, animated: true)
+        })
+        
+        present(ac, animated: true)
+    }
+    
+    func errorNotEnoughPlayers() {
+        let ac = UIAlertController(title: "Error: Not Enough Players", message: "You need a player", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default){[weak self] _ in
+            self?.addPlayer()
         })
         present(ac, animated: true)
     }

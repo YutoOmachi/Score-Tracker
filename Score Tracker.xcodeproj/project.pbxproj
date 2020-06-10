@@ -16,11 +16,13 @@
 		3F293D7A248A22A600FA77D4 /* GameListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D79248A22A600FA77D4 /* GameListVC.swift */; };
 		3F293D7C248A232200FA77D4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D7B248A232200FA77D4 /* UIViewExtension.swift */; };
 		3F293D80248A26CB00FA77D4 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D7F248A26CB00FA77D4 /* GameCell.swift */; };
-		3F293D83248A299500FA77D4 /* Stevia in Frameworks */ = {isa = PBXBuildFile; productRef = 3F293D82248A299500FA77D4 /* Stevia */; };
+		3F293D83248A299500FA77D4 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3F293D82248A299500FA77D4 /* SwiftPackageProductDependency */; };
 		3F293D85248A4B1400FA77D4 /* PlayerListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D84248A4B1400FA77D4 /* PlayerListVC.swift */; };
 		3F293D87248A4D1200FA77D4 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D86248A4D1200FA77D4 /* PlayerCell.swift */; };
 		3F510B9B248CB68B009E4C94 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510B9A248CB68B009E4C94 /* Player.swift */; };
 		3F510B9D248CBE08009E4C94 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510B9C248CBE08009E4C94 /* Game.swift */; };
+		3F510B9F248DF326009E4C94 /* UpdateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510B9E248DF326009E4C94 /* UpdateCell.swift */; };
+		D8BCB41FBCD94DBAC13920C7 /* Pods_Score_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,10 @@
 		3F293D86248A4D1200FA77D4 /* PlayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
 		3F510B9A248CB68B009E4C94 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		3F510B9C248CBE08009E4C94 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
+		3F510B9E248DF326009E4C94 /* UpdateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCell.swift; sourceTree = "<group>"; };
+		7B5C0E62AB72A1F3879A3CF5 /* Pods-Score Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Score Tracker.release.xcconfig"; path = "Target Support Files/Pods-Score Tracker/Pods-Score Tracker.release.xcconfig"; sourceTree = "<group>"; };
+		A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Score_Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D09ABA55C87A3FA2174565A1 /* Pods-Score Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Score Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Score Tracker/Pods-Score Tracker.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +52,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F293D83248A299500FA77D4 /* Stevia in Frameworks */,
+				3F293D83248A299500FA77D4 /* BuildFile in Frameworks */,
+				D8BCB41FBCD94DBAC13920C7 /* Pods_Score_Tracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +65,8 @@
 			children = (
 				3F293D60248A12E100FA77D4 /* Score Tracker */,
 				3F293D5F248A12E100FA77D4 /* Products */,
+				FFA7E33EFAA5CE08897FCEAA /* Pods */,
+				AA2345BB9A203F70221883B7 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,6 +86,7 @@
 				3F293D7F248A26CB00FA77D4 /* GameCell.swift */,
 				3F293D84248A4B1400FA77D4 /* PlayerListVC.swift */,
 				3F293D86248A4D1200FA77D4 /* PlayerCell.swift */,
+				3F510B9E248DF326009E4C94 /* UpdateCell.swift */,
 				3F293D6F248A12EC00FA77D4 /* Info.plist */,
 				3F510B9A248CB68B009E4C94 /* Player.swift */,
 				3F510B9C248CBE08009E4C94 /* Game.swift */,
@@ -106,6 +116,24 @@
 			path = Supporting;
 			sourceTree = "<group>";
 		};
+		AA2345BB9A203F70221883B7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FFA7E33EFAA5CE08897FCEAA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D09ABA55C87A3FA2174565A1 /* Pods-Score Tracker.debug.xcconfig */,
+				7B5C0E62AB72A1F3879A3CF5 /* Pods-Score Tracker.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -113,9 +141,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3F293D72248A12EC00FA77D4 /* Build configuration list for PBXNativeTarget "Score Tracker" */;
 			buildPhases = (
+				E99EC67DF8C7E3712F6B9908 /* [CP] Check Pods Manifest.lock */,
 				3F293D5A248A12E100FA77D4 /* Sources */,
 				3F293D5B248A12E100FA77D4 /* Frameworks */,
 				3F293D5C248A12E100FA77D4 /* Resources */,
+				94B3AC3525F42BDD6D669386 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -123,7 +153,7 @@
 			);
 			name = "Score Tracker";
 			packageProductDependencies = (
-				3F293D82248A299500FA77D4 /* Stevia */,
+				3F293D82248A299500FA77D4 /* SwiftPackageProductDependency */,
 			);
 			productName = "Score Tracker";
 			productReference = 3F293D5E248A12E100FA77D4 /* Score Tracker.app */;
@@ -154,7 +184,7 @@
 			);
 			mainGroup = 3F293D55248A12E100FA77D4;
 			packageReferences = (
-				3F293D81248A299500FA77D4 /* XCRemoteSwiftPackageReference "Stevia" */,
+				3F293D81248A299500FA77D4 /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = 3F293D5F248A12E100FA77D4 /* Products */;
 			projectDirPath = "";
@@ -177,6 +207,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		94B3AC3525F42BDD6D669386 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Score Tracker/Pods-Score Tracker-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Score Tracker/Pods-Score Tracker-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Score Tracker/Pods-Score Tracker-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E99EC67DF8C7E3712F6B9908 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Score Tracker-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		3F293D5A248A12E100FA77D4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -192,6 +264,7 @@
 				3F293D78248A148300FA77D4 /* colorExtension.swift in Sources */,
 				3F293D80248A26CB00FA77D4 /* GameCell.swift in Sources */,
 				3F510B9B248CB68B009E4C94 /* Player.swift in Sources */,
+				3F510B9F248DF326009E4C94 /* UpdateCell.swift in Sources */,
 				3F293D85248A4B1400FA77D4 /* PlayerListVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -326,6 +399,7 @@
 		};
 		3F293D73248A12EC00FA77D4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D09ABA55C87A3FA2174565A1 /* Pods-Score Tracker.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -344,6 +418,7 @@
 		};
 		3F293D74248A12EC00FA77D4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B5C0E62AB72A1F3879A3CF5 /* Pods-Score Tracker.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -384,7 +459,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3F293D81248A299500FA77D4 /* XCRemoteSwiftPackageReference "Stevia" */ = {
+		3F293D81248A299500FA77D4 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/freshOS/Stevia";
 			requirement = {
@@ -395,9 +470,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3F293D82248A299500FA77D4 /* Stevia */ = {
+		3F293D82248A299500FA77D4 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3F293D81248A299500FA77D4 /* XCRemoteSwiftPackageReference "Stevia" */;
+			package = 3F293D81248A299500FA77D4 /* RemoteSwiftPackageReference */;
 			productName = Stevia;
 		};
 /* End XCSwiftPackageProductDependency section */

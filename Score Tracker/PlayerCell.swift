@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class PlayerCell: UITableViewCell {
 
     var playerNameLabel = UILabel()
@@ -19,13 +20,14 @@ class PlayerCell: UITableViewCell {
     
     var addingPoint:Int = 0 {
         didSet {
-            print(addingPoint)
             pointField.text = "\(addingPoint)"
         }
     }
-    
+        
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        configureCell()
         
         addSubview(playerNameLabel)
         addSubview(starLabel)
@@ -45,14 +47,18 @@ class PlayerCell: UITableViewCell {
         fatalError("init(code) is not implemented")
     }
     
+    func configureCell() {
+        self.layer.borderWidth = 1
+        self.layer.borderColor = UIColor.lightCellColor.cgColor
+    }
+    
     func configurePlayerNameLabel()  {
-        playerNameLabel.adjustsFontSizeToFitWidth = true
+        playerNameLabel.numberOfLines = 0
         setPlayerNameLabelConstraints()
     }
     
     func configureStarLabel() {
-        starLabel.backgroundColor = .cyan
-        setStarLabelConstrins()
+        setStarLabelConstraints()
     }
     
     func configureTotalPointsLabel() {
@@ -73,7 +79,7 @@ class PlayerCell: UITableViewCell {
     func configurePointField() {
         pointField.adjustsFontSizeToFitWidth = true
         pointField.textAlignment = .center
-        pointField.backgroundColor = .lightGray
+        pointField.backgroundColor = .white
         addingPoint = 0
         pointField.keyboardType = .numberPad
         pointField.addTarget(self, action: #selector(pointFieldDidChange), for: .editingChanged)
@@ -91,7 +97,7 @@ class PlayerCell: UITableViewCell {
         ])
     }
     
-    func setStarLabelConstrins() {
+    func setStarLabelConstraints() {
         starLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             starLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
@@ -137,7 +143,6 @@ class PlayerCell: UITableViewCell {
     }
     
     @objc func plusOnePoint(sender: UIButton) {
-        print("added one point")
         addingPoint += 1
     }
     
@@ -164,4 +169,5 @@ class PlayerCell: UITableViewCell {
     @objc func dismissKeyboard() {
         superview?.endEditing(true)
     }
+
 }
