@@ -16,12 +16,13 @@
 		3F293D7A248A22A600FA77D4 /* GameListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D79248A22A600FA77D4 /* GameListVC.swift */; };
 		3F293D7C248A232200FA77D4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D7B248A232200FA77D4 /* UIViewExtension.swift */; };
 		3F293D80248A26CB00FA77D4 /* GameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D7F248A26CB00FA77D4 /* GameCell.swift */; };
-		3F293D83248A299500FA77D4 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 3F293D82248A299500FA77D4 /* SwiftPackageProductDependency */; };
+		3F293D83248A299500FA77D4 /* Stevia in Frameworks */ = {isa = PBXBuildFile; productRef = 3F293D82248A299500FA77D4 /* Stevia */; };
 		3F293D85248A4B1400FA77D4 /* PlayerListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D84248A4B1400FA77D4 /* PlayerListVC.swift */; };
 		3F293D87248A4D1200FA77D4 /* PlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D86248A4D1200FA77D4 /* PlayerCell.swift */; };
 		3F510B9B248CB68B009E4C94 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510B9A248CB68B009E4C94 /* Player.swift */; };
 		3F510B9D248CBE08009E4C94 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510B9C248CBE08009E4C94 /* Game.swift */; };
 		3F510B9F248DF326009E4C94 /* UpdateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510B9E248DF326009E4C94 /* UpdateCell.swift */; };
+		3F510BA32490951E009E4C94 /* ChartVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510BA22490951E009E4C94 /* ChartVC.swift */; };
 		D8BCB41FBCD94DBAC13920C7 /* Pods_Score_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		3F510B9A248CB68B009E4C94 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		3F510B9C248CBE08009E4C94 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		3F510B9E248DF326009E4C94 /* UpdateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCell.swift; sourceTree = "<group>"; };
+		3F510BA22490951E009E4C94 /* ChartVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartVC.swift; sourceTree = "<group>"; };
 		7B5C0E62AB72A1F3879A3CF5 /* Pods-Score Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Score Tracker.release.xcconfig"; path = "Target Support Files/Pods-Score Tracker/Pods-Score Tracker.release.xcconfig"; sourceTree = "<group>"; };
 		A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Score_Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D09ABA55C87A3FA2174565A1 /* Pods-Score Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Score Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Score Tracker/Pods-Score Tracker.debug.xcconfig"; sourceTree = "<group>"; };
@@ -52,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F293D83248A299500FA77D4 /* BuildFile in Frameworks */,
+				3F293D83248A299500FA77D4 /* Stevia in Frameworks */,
 				D8BCB41FBCD94DBAC13920C7 /* Pods_Score_Tracker.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,6 +89,7 @@
 				3F293D84248A4B1400FA77D4 /* PlayerListVC.swift */,
 				3F293D86248A4D1200FA77D4 /* PlayerCell.swift */,
 				3F510B9E248DF326009E4C94 /* UpdateCell.swift */,
+				3F510BA22490951E009E4C94 /* ChartVC.swift */,
 				3F293D6F248A12EC00FA77D4 /* Info.plist */,
 				3F510B9A248CB68B009E4C94 /* Player.swift */,
 				3F510B9C248CBE08009E4C94 /* Game.swift */,
@@ -130,7 +133,6 @@
 				D09ABA55C87A3FA2174565A1 /* Pods-Score Tracker.debug.xcconfig */,
 				7B5C0E62AB72A1F3879A3CF5 /* Pods-Score Tracker.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -153,7 +155,7 @@
 			);
 			name = "Score Tracker";
 			packageProductDependencies = (
-				3F293D82248A299500FA77D4 /* SwiftPackageProductDependency */,
+				3F293D82248A299500FA77D4 /* Stevia */,
 			);
 			productName = "Score Tracker";
 			productReference = 3F293D5E248A12E100FA77D4 /* Score Tracker.app */;
@@ -184,7 +186,7 @@
 			);
 			mainGroup = 3F293D55248A12E100FA77D4;
 			packageReferences = (
-				3F293D81248A299500FA77D4 /* RemoteSwiftPackageReference */,
+				3F293D81248A299500FA77D4 /* XCRemoteSwiftPackageReference "Stevia" */,
 			);
 			productRefGroup = 3F293D5F248A12E100FA77D4 /* Products */;
 			projectDirPath = "";
@@ -260,6 +262,7 @@
 				3F293D87248A4D1200FA77D4 /* PlayerCell.swift in Sources */,
 				3F293D76248A13D600FA77D4 /* GameListScreen.swift in Sources */,
 				3F293D7A248A22A600FA77D4 /* GameListVC.swift in Sources */,
+				3F510BA32490951E009E4C94 /* ChartVC.swift in Sources */,
 				3F510B9D248CBE08009E4C94 /* Game.swift in Sources */,
 				3F293D78248A148300FA77D4 /* colorExtension.swift in Sources */,
 				3F293D80248A26CB00FA77D4 /* GameCell.swift in Sources */,
@@ -459,7 +462,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		3F293D81248A299500FA77D4 /* RemoteSwiftPackageReference */ = {
+		3F293D81248A299500FA77D4 /* XCRemoteSwiftPackageReference "Stevia" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/freshOS/Stevia";
 			requirement = {
@@ -470,9 +473,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		3F293D82248A299500FA77D4 /* SwiftPackageProductDependency */ = {
+		3F293D82248A299500FA77D4 /* Stevia */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 3F293D81248A299500FA77D4 /* RemoteSwiftPackageReference */;
+			package = 3F293D81248A299500FA77D4 /* XCRemoteSwiftPackageReference "Stevia" */;
 			productName = Stevia;
 		};
 /* End XCSwiftPackageProductDependency section */

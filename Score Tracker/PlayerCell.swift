@@ -49,7 +49,7 @@ class PlayerCell: UITableViewCell {
     
     func configureCell() {
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.lightCellColor.cgColor
+        self.layer.borderColor = UIColor.cellColor.cgColor
     }
     
     func configurePlayerNameLabel()  {

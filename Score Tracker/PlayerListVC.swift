@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Stevia
 
 class PlayerListVC: UIViewController {
     
