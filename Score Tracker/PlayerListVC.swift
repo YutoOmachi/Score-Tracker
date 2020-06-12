@@ -21,7 +21,14 @@ class PlayerListVC: UIViewController {
         super.viewDidLoad()
         title = game?.title
         configureTableView()
+        configureNavController()
     }
+    
+    func configureNavController() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Chart", style: .plain, target: self, action: #selector(chartTapped))
+        print("chart button added")
+    }
+    
     
     func configureTableView() {
         setTableViewDelegates()
@@ -37,6 +44,11 @@ class PlayerListVC: UIViewController {
         tableView.dataSource = self
     }
 
+    @objc func chartTapped() {
+        let chartVC = ChartVC()
+        chartVC.players = game.players
+        navigationController?.pushViewController(chartVC, animated: true)
+    }
 }
 
 extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
