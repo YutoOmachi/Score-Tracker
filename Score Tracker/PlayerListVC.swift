@@ -8,7 +8,14 @@
 
 import UIKit
 
+
+protocol GameDataDelegate {
+    func didGameUpdated(game: Game)
+}
+
 class PlayerListVC: UIViewController {
+    
+    var gameDataDelegate: GameDataDelegate!
     
     var game: Game!
     
@@ -129,6 +136,7 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             player.pastRanks.append(i+1)
         }
 
+        gameDataDelegate.didGameUpdated(game: game)
         tableView.reloadData()
     }
     

@@ -18,7 +18,21 @@ class GameListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setNavController()
+        loadGames()
         configureTableView()
+    }
+    
+    func loadGames() {
+        let defaults = UserDefaults.standard
+        
+        if let savedGames = defaults.object(forKey: "games") as? Data {
+            let jsonDecoder = JSONDecoder()
+            do {
+                games = try jsonDecoder.decode([Game].self, from: savedGames)
+            } catch {
+                print("Failed to load images")
+            }
+        }
     }
     
     func setNavController() {
@@ -61,8 +75,24 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let VC = PlayerListVC()
+        VC.gameDataDelegate = self
         VC.game = games[indexPath.row]
+        games.remove(at: indexPath.row)
+        games.insert(VC.game, at: 0)
         navigationController?.pushViewController(VC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "Delete"){
+            [weak self] (action, view, nil) in
+            self?.games.remove(at: indexPath.row)
+            self?.tableView.reloadData()
+            self?.save()
+        }
+        delete.image = UIImage(systemName: "trash")
+        let config = UISwipeActionsConfiguration(actions: [delete])
+        config.performsFirstActionWithFullSwipe = false
+        return config
     }
     
     
@@ -107,10 +137,12 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
                 return
             }
             
-
+            self?.save()
             let VC = PlayerListVC()
+            VC.gameDataDelegate = self
             VC.game = self?.games[0]
             self?.navigationController?.pushViewController(VC, animated: true)
+            self?.tableView.reloadData()
         })
         
         present(ac, animated: true)
@@ -123,6 +155,23 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
         })
         present(ac, animated: true)
     }
+    
+    func save() {
+        let jsonEncoder = JSONEncoder()
+        if let savedData = try? jsonEncoder.encode(games) {
+            let defaults = UserDefaults.standard
+            defaults.set(savedData, forKey: "games")
+        } else {
+            print("Failed to save games.")
+        }
+    }
 }
 
+
+extension GameListVC: GameDataDelegate {
+    func didGameUpdated(game: Game) {
+        games[0] = game
+    }
+    
+}
 

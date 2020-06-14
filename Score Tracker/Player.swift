@@ -9,7 +9,7 @@
 import UIKit
 
 
-class Player {
+class Player: NSObject, Codable {
     var name: String
     var pastRanks = [1]
     var pastPoints = [0]

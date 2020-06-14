@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Game {
+class Game: NSObject, Codable {
     var title: String
     var players = [Player]()
     
