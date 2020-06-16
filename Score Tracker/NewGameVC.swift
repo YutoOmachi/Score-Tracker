@@ -8,10 +8,19 @@
 
 import UIKit
 import Stevia
+import FlexColorPicker
+
 
 class NewGameVC: UIViewController {
     
+    var gameDataDelegate: GameDataDelegate?
+    
     var tableView = UITableView()
+    var selectedButton: UIButton?
+    var colorPickerController: DefaultColorPickerViewController!
+    var colorNavController: UINavigationController!
+    
+    var numPlayers = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +37,8 @@ class NewGameVC: UIViewController {
     }
     
     func setNavController() {
-        self.title = "List of Games"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        self.title = "Card Game"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: "Futura-Medium", size: 20) ?? UIFont.systemFont(ofSize: 24)]
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
     }
@@ -48,7 +57,6 @@ class NewGameVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
     }
-    
 }
 
 extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
@@ -57,7 +65,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         case 0:
             return 1
         case 1:
-            return 4
+            return numPlayers
         default:
             return 1
         }
@@ -67,28 +75,31 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         return 3
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if section == 1 {
-            let headerView = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.rowHeight*0.7))
-            headerView.backgroundColor = UIColor.cellColor
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        if section == 0 {
+            let footerView = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.rowHeight*0.7))
+            footerView.backgroundColor = UIColor.cellColor
             
             let label = UILabel()
             let addPlayerButton = UIButton()
-            headerView.subviews{
+            footerView.subviews{
                 label
                 addPlayerButton
             }
-            label.height(60%).width(20%).left(10%).centerVertically()
+            label.height(60%).width(20%).left(5%).centerVertically()
             label.text = "Players"
             label.textColor = .white
             addPlayerButton.height(60%).width(10%).right(0).centerVertically()
             addPlayerButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+            addPlayerButton.tintColor = .black
+            addPlayerButton.addTarget(self, action: #selector(addPlayerTapped), for: .touchUpInside)
             
-            return headerView
+            return footerView
         }
-        else if section == 2 {
+        else if section == 1 {
             return UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.rowHeight/2))
         }
+        
         return UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     }
     
@@ -101,9 +112,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
             }
         case 1:
             if let cell = tableView.dequeueReusableCell(withIdentifier: "player", for: indexPath) as? NewPlayerCell {
-                cell.nameField.placeholder = "Player\(indexPath.row)"
-                cell.handicapField.placeholder = "0"
-                
+                cell.nameField.placeholder = "Player\(indexPath.row+1)"
                 let color: UIColor!
                 switch indexPath.row%6 {
                 case 0:
@@ -122,11 +131,13 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
                     color = .red
                 }
                 cell.colorButton.backgroundColor = color
+                cell.colorButton.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
                 return cell
             }
         default:
             if let cell = tableView.dequeueReusableCell(withIdentifier: "newGame", for: indexPath) as? CreateNewGameCell {
                 cell.createNewGameButton.layer.cornerRadius = tableView.rowHeight*0.4
+                cell.createNewGameButton.addTarget(self, action: #selector(createNewGameTapped), for: .touchUpInside)
                 return cell
             }
         }
@@ -134,4 +145,65 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         return UITableViewCell()
     }
     
+    @objc func createNewGameTapped() {
+        let titleCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? NewGameTitleCell
+        var game: Game
+        if let title:String = titleCell?.titleField.text {
+            game = Game(title: title)
+        }
+        else {
+            game = Game(title: "Game")
+        }
+        
+        for i in 0..<numPlayers {
+            let cell = tableView.cellForRow(at: IndexPath(row: i, section: 1)) as? NewPlayerCell
+            if let name = cell?.nameField.text, let color = cell?.colorButton.backgroundColor?.cgColor.components {
+                game.players.append(Player(name: name, color: color))
+            }
+            else {
+                game.players.append(Player(name: "Player\(i+1)", color: [0,0,0]))
+            }
+        }
+        
+        gameDataDelegate?.addNewGame(game: game)
+        
+        let VC = PlayerListVC()
+        VC.game = game
+        VC.gameDataDelegate = GameListVC()
+        navigationController?.pushViewController(VC, animated: true)
+    }
+    
+    @objc func colorButtonTapped(_ sender: UIButton) {
+        selectedButton = sender
+        colorPickerController = DefaultColorPickerViewController()
+        colorPickerController.delegate = self
+        colorNavController = UINavigationController(rootViewController: colorPickerController)
+        
+        let selectButton = UIBarButtonItem(title: "Select", style: .done, target: self, action: #selector(selectTapped(sender:)))
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelTapped(sender:)))
+        colorPickerController.navigationItem.rightBarButtonItem = selectButton
+        colorPickerController.navigationItem.leftBarButtonItem = cancelButton
+        colorPickerController.navigationItem.leftBarButtonItem?.tintColor = .red
+
+        present(colorNavController, animated: true, completion: nil)
+    }
+
+    @objc func selectTapped(sender: UIBarButtonItem) {
+        colorNavController.dismiss(animated: true, completion: nil)
+        selectedButton?.backgroundColor = colorPickerController.selectedColor
+    }
+    
+    @objc func cancelTapped(sender: UIBarButtonItem) {
+        colorNavController.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func addPlayerTapped() {
+        numPlayers+=1
+        tableView.reloadData()
+    }
+
 }
+
+extension NewGameVC: ColorPickerDelegate {
+}
+

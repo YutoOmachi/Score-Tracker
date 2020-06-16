@@ -29,8 +29,8 @@ class NewPlayerCell: UITableViewCell {
         configureColorButton()
         configureNameLabel()
         configureNameField()
-        configureHandicapLabel()
-        configureHandicapField()
+//        configureHandicapLabel()
+//        configureHandicapField()
     }
     
     required init?(coder: NSCoder) {
@@ -38,13 +38,14 @@ class NewPlayerCell: UITableViewCell {
     }
     
     func configureColorButton() {
-        colorButton.height(self.frame.size.height/2).centerVertically().width(self.frame.size.height/2).left(5%)
-        colorButton.layer.cornerRadius = self.frame.size.height/4
+        colorButton.height(self.frame.size.height/1.5).centerVertically().width(self.frame.size.height/1.5).left(5%)
+        colorButton.layer.cornerRadius = self.frame.size.height/3
     }
     
     func configureNameLabel() {
         nameLabel.height(20%).top(10%).width(40%).left(20%)
         nameLabel.text = "Player Name"
+        nameLabel.font = UIFont(name: "Future-Medium", size: 16)
         nameLabel.textColor = UIColor.gray
     }
     

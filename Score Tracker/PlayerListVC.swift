@@ -11,6 +11,7 @@ import UIKit
 
 protocol GameDataDelegate {
     func didGameUpdated(game: Game)
+    func addNewGame(game: Game)
 }
 
 class PlayerListVC: UIViewController {
@@ -33,7 +34,7 @@ class PlayerListVC: UIViewController {
     
     func configureNavController() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Chart", style: .plain, target: self, action: #selector(chartTapped))
-        print("chart button added")
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: "Futura-Medium", size: 20) ?? UIFont.systemFont(ofSize: 24)]
     }
     
     

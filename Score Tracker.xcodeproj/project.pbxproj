@@ -27,6 +27,7 @@
 		3F510BA92494DBE5009E4C94 /* NewPlayerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510BA82494DBE5009E4C94 /* NewPlayerCell.swift */; };
 		3F510BAB2494DC08009E4C94 /* NewGameTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510BAA2494DC08009E4C94 /* NewGameTitleCell.swift */; };
 		3F510BAD2494DC25009E4C94 /* CreateNewGameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510BAC2494DC25009E4C94 /* CreateNewGameCell.swift */; };
+		3F510BB02495F847009E4C94 /* FlexColorPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 3F510BAF2495F847009E4C94 /* FlexColorPicker */; };
 		D8BCB41FBCD94DBAC13920C7 /* Pods_Score_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F510BB02495F847009E4C94 /* FlexColorPicker in Frameworks */,
 				3F293D83248A299500FA77D4 /* Stevia in Frameworks */,
 				D8BCB41FBCD94DBAC13920C7 /* Pods_Score_Tracker.framework in Frameworks */,
 			);
@@ -184,6 +186,7 @@
 			name = "Score Tracker";
 			packageProductDependencies = (
 				3F293D82248A299500FA77D4 /* Stevia */,
+				3F510BAF2495F847009E4C94 /* FlexColorPicker */,
 			);
 			productName = "Score Tracker";
 			productReference = 3F293D5E248A12E100FA77D4 /* Score Tracker.app */;
@@ -215,6 +218,7 @@
 			mainGroup = 3F293D55248A12E100FA77D4;
 			packageReferences = (
 				3F293D81248A299500FA77D4 /* XCRemoteSwiftPackageReference "Stevia" */,
+				3F510BAE2495F847009E4C94 /* XCRemoteSwiftPackageReference "FlexColorPicker" */,
 			);
 			productRefGroup = 3F293D5F248A12E100FA77D4 /* Products */;
 			projectDirPath = "";
@@ -502,6 +506,14 @@
 				minimumVersion = 5.0.1;
 			};
 		};
+		3F510BAE2495F847009E4C94 /* XCRemoteSwiftPackageReference "FlexColorPicker" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RastislavMirek/FlexColorPicker";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -509,6 +521,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3F293D81248A299500FA77D4 /* XCRemoteSwiftPackageReference "Stevia" */;
 			productName = Stevia;
+		};
+		3F510BAF2495F847009E4C94 /* FlexColorPicker */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F510BAE2495F847009E4C94 /* XCRemoteSwiftPackageReference "FlexColorPicker" */;
+			productName = FlexColorPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

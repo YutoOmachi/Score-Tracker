@@ -40,7 +40,8 @@ class GameListVC: UIViewController {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewGame))
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: "Futura-Medium", size: 20) ?? UIFont.systemFont(ofSize: 24)]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewGameTapped))
     }
     
     func configureTableView() {
@@ -96,65 +97,69 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     
-    @objc func addNewGame() {
-        addTitle()
-    }
-    
-    @objc func addTitle() {
-        let ac = UIAlertController(title: "Title", message: "Enter the name of the game", preferredStyle: .alert)
-        ac.addTextField()
-        ac.addAction(UIAlertAction(title: "OK", style: .default){[weak self] _ in
-            if let titleText = ac.textFields?[0].text {
-                self?.games.insert(Game(title: titleText), at: 0)
-                self?.addPlayer()
-            }
-            
-        })
-        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(ac, animated: true)
-    }
-    
-    func addPlayer() {
-        let ac = UIAlertController(title: "Add a player", message: "Enter the name of a player", preferredStyle: .alert)
-        ac.addTextField()
-        ac.addAction(UIAlertAction(title: "Add more players", style: .default){[weak self] _ in
-            if let playerName = ac.textFields?[0].text {
-                if !playerName.isEmpty{
-                    self?.games[0].players.append(Player(name: playerName))
-                }
-            }
-            self?.addPlayer()
-        })
-        ac.addAction(UIAlertAction(title: "Make Game!", style: .default){[weak self] _ in
-            if let playerName = ac.textFields?[0].text {
-                if !playerName.isEmpty{
-                    self?.games[0].players.append(Player(name: playerName))
-                }
-            }
-            
-            if self?.games[0].players.count ?? 0 < 1 {
-                self?.errorNotEnoughPlayers()
-                return
-            }
-            
-            self?.save()
-            let VC = PlayerListVC()
-            VC.gameDataDelegate = self
-            VC.game = self?.games[0]
-            self?.navigationController?.pushViewController(VC, animated: true)
-            self?.tableView.reloadData()
-        })
+    @objc func addNewGameTapped() {
+        let VC = NewGameVC()
+        VC.gameDataDelegate = self
+        navigationController?.pushViewController(VC, animated: true)
         
-        present(ac, animated: true)
+//        addTitle()
     }
     
-    func errorNotEnoughPlayers() {
-        let ac = UIAlertController(title: "Error: Not Enough Players", message: "You need a player", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default){[weak self] _ in
-            self?.addPlayer()
-        })
-        present(ac, animated: true)
-    }
+//    @objc func addTitle() {
+//        let ac = UIAlertController(title: "Title", message: "Enter the name of the game", preferredStyle: .alert)
+//        ac.addTextField()
+//        ac.addAction(UIAlertAction(title: "OK", style: .default){[weak self] _ in
+//            if let titleText = ac.textFields?[0].text {
+//                self?.games.insert(Game(title: titleText), at: 0)
+//                self?.addPlayer()
+//            }
+//
+//        })
+//        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+//        present(ac, animated: true)
+//    }
+//
+//    func addPlayer() {
+//        let ac = UIAlertController(title: "Add a player", message: "Enter the name of a player", preferredStyle: .alert)
+//        ac.addTextField()
+//        ac.addAction(UIAlertAction(title: "Add more players", style: .default){[weak self] _ in
+//            if let playerName = ac.textFields?[0].text {
+//                if !playerName.isEmpty{
+//                    self?.games[0].players.append(Player(name: playerName))
+//                }
+//            }
+//            self?.addPlayer()
+//        })
+//        ac.addAction(UIAlertAction(title: "Make Game!", style: .default){[weak self] _ in
+//            if let playerName = ac.textFields?[0].text {
+//                if !playerName.isEmpty{
+//                    self?.games[0].players.append(Player(name: playerName))
+//                }
+//            }
+//
+//            if self?.games[0].players.count ?? 0 < 1 {
+//                self?.errorNotEnoughPlayers()
+//                return
+//            }
+//
+//            self?.save()
+//            let VC = PlayerListVC()
+//            VC.gameDataDelegate = self
+//            VC.game = self?.games[0]
+//            self?.navigationController?.pushViewController(VC, animated: true)
+//            self?.tableView.reloadData()
+//        })
+//
+//        present(ac, animated: true)
+//    }
+//
+//    func errorNotEnoughPlayers() {
+//        let ac = UIAlertController(title: "Error: Not Enough Players", message: "You need a player", preferredStyle: .alert)
+//        ac.addAction(UIAlertAction(title: "OK", style: .default){[weak self] _ in
+//            self?.addPlayer()
+//        })
+//        present(ac, animated: true)
+//    }
     
     func save() {
         let jsonEncoder = JSONEncoder()
@@ -171,6 +176,12 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
 extension GameListVC: GameDataDelegate {
     func didGameUpdated(game: Game) {
         games[0] = game
+        self.tableView.reloadData()
+    }
+    
+    func addNewGame(game: Game) {
+        games.insert(game, at: 0)
+        self.tableView.reloadData()
     }
     
 }

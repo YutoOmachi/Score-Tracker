@@ -13,8 +13,10 @@ class Player: NSObject, Codable {
     var name: String
     var pastRanks = [1]
     var pastPoints = [0]
+    var color:[CGFloat]
     
-    init(name: String) {
+    init(name: String, color: [CGFloat]) {
         self.name = name
+        self.color = color
     }
 }

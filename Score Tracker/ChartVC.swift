@@ -95,6 +95,7 @@ class ChartVC: UIViewController{
     }
     override func viewDidAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = true
+        navigationController?.hidesBarsOnTap = true
     }
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false

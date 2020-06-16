@@ -16,3 +16,9 @@ extension UIColor
     static let silver = UIColor(red: 192.0/255.0, green: 192.0/255.0, blue: 192.0/255.0, alpha: 1.0)
     static let bronze = UIColor(red: 205.0/255.0, green: 127.0/255.0, blue: 50.0/255.0, alpha: 1.0)
 }
+
+extension UIFont
+{
+    static let titleFont = UIFont(name: "Futura-Medium", size: 20)
+    static let themeFont = UIFont(name: "Futura-Medium", size: 16)
+}
