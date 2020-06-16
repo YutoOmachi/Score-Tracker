@@ -19,6 +19,6 @@ extension UIColor
 
 extension UIFont
 {
-    static let titleFont = UIFont(name: "Futura-Medium", size: 20)
-    static let themeFont = UIFont(name: "Futura-Medium", size: 16)
+    static let titleFont = UIFont(name: "Futura-Medium", size: 20)!
+    static let textFont = UIFont(name: "Futura-Medium", size: 16)!
 }

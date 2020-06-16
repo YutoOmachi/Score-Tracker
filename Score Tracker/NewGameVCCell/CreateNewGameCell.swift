@@ -27,7 +27,7 @@ class CreateNewGameCell: UITableViewCell {
     func configureUpdateButton() {
         let text = "Create New Game"
         let attr: [NSAttributedString.Key : Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 24),
+            .font: UIFont.titleFont,
             .foregroundColor: UIColor.white
         ]
         let attrString = NSAttributedString(string: text, attributes: attr)
@@ -35,6 +35,6 @@ class CreateNewGameCell: UITableViewCell {
         
         createNewGameButton.backgroundColor = UIColor.cellColor
         
-        createNewGameButton.centerHorizontally().centerVertically().height(80%).width(60%)
+        createNewGameButton.centerHorizontally().centerVertically().height(80%).width(50%)
     }
 }

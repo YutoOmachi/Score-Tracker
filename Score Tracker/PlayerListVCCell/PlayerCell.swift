@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Stevia
 
 class PlayerCell: UITableViewCell {
 
@@ -29,17 +29,20 @@ class PlayerCell: UITableViewCell {
         
         configureCell()
         
-        addSubview(playerNameLabel)
-        addSubview(starLabel)
-        addSubview(totalPointsLabel)
-        addSubview(plusButton)
-        addSubview(minusButton)
-        addSubview(pointField)
-        
+        subviews {
+            playerNameLabel
+            starLabel
+            totalPointsLabel
+            plusButton
+            minusButton
+            pointField
+        }
+
         configurePlayerNameLabel()
         configureStarLabel()
         configureTotalPointsLabel()
-        configurePlusMinusLabel()
+        configureMinusButton()
+        configurePlusButton()
         configurePointField()
     }
     
@@ -54,26 +57,34 @@ class PlayerCell: UITableViewCell {
     
     func configurePlayerNameLabel()  {
         playerNameLabel.numberOfLines = 0
-        setPlayerNameLabelConstraints()
+        playerNameLabel.height(60%).centerVertically().width(25%).left(20)
     }
     
     func configureStarLabel() {
-        setStarLabelConstraints()
+        starLabel.heightEqualsWidth().height(30%).centerVertically().left(30%)
     }
     
     func configureTotalPointsLabel() {
         totalPointsLabel.adjustsFontSizeToFitWidth = true
-        setTotalPointsLabelConstraints()
+        totalPointsLabel.height(60%).centerVertically().width(15%).left(50%)
     }
 
-    func configurePlusMinusLabel() {
-        plusButton.setTitle("+", for: .normal)
+    func configureMinusButton() {
         minusButton.setTitle("-", for: .normal)
-        plusButton.setTitleColor(.black, for: .normal)
         minusButton.setTitleColor(.black, for: .normal)
-        plusButton.addTarget(self, action: #selector(plusOnePoint), for: .touchUpInside)
         minusButton.addTarget(self, action: #selector(minusOnePoint), for: .touchUpInside)
-        setPlusMinusConstraints()
+        minusButton.heightEqualsWidth().centerVertically().width(8%).left(65%)
+        minusButton.layer.cornerRadius = self.frame.size.width*0.04
+        minusButton.layer.backgroundColor = UIColor.cyan.cgColor
+    }
+    
+    func configurePlusButton() {
+        plusButton.setTitle("+", for: .normal)
+        plusButton.setTitleColor(.black, for: .normal)
+        plusButton.addTarget(self, action: #selector(plusOnePoint), for: .touchUpInside)
+        plusButton.heightEqualsWidth().centerVertically().width(8%).left(87%)
+        plusButton.layer.cornerRadius = self.frame.size.width*0.04
+        plusButton.layer.backgroundColor = UIColor.cyan.cgColor
     }
     
     func configurePointField() {
@@ -82,65 +93,13 @@ class PlayerCell: UITableViewCell {
         pointField.backgroundColor = .white
         addingPoint = 0
         pointField.keyboardType = .numberPad
+        pointField.layer.borderWidth = 1
+        pointField.layer.borderColor = UIColor.lightGray.cgColor
         pointField.addTarget(self, action: #selector(pointFieldDidChange), for: .editingChanged)
         setExitterForPointField()
-        setPointFieldConstraints()
+        pointField.height(50%).centerVertically().width(10%).left(75%)
     }
     
-    func setPlayerNameLabelConstraints()  {
-        playerNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            playerNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            playerNameLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
-            playerNameLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.25),
-            playerNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20)
-        ])
-    }
-    
-    func setStarLabelConstraints() {
-        starLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            starLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            starLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.3),
-            starLabel.widthAnchor.constraint(equalTo: starLabel.heightAnchor),
-            starLabel.leadingAnchor.constraint(equalTo: playerNameLabel.trailingAnchor)
-        ])
-    }
-    
-    func setTotalPointsLabelConstraints()  {
-        totalPointsLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            totalPointsLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            totalPointsLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7),
-            totalPointsLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.2),
-            totalPointsLabel.leadingAnchor.constraint(equalTo: starLabel.trailingAnchor, constant: 30)
-        ])
-    }
-    
-    func setPlusMinusConstraints()  {
-        plusButton.translatesAutoresizingMaskIntoConstraints = false
-        minusButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            plusButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            plusButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6),
-            plusButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.05),
-            plusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            minusButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            minusButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6),
-            minusButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.05),
-            minusButton.trailingAnchor.constraint(equalTo: pointField.leadingAnchor, constant: -10)
-        ])
-    }
-    
-    func setPointFieldConstraints()  {
-        pointField.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            pointField.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            pointField.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.7),
-            pointField.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.15),
-            pointField.trailingAnchor.constraint(equalTo: plusButton.leadingAnchor, constant: -10)
-        ])
-    }
     
     @objc func plusOnePoint(sender: UIButton) {
         addingPoint += 1

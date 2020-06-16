@@ -88,17 +88,16 @@ class ChartVC: UIViewController{
             lineChartView
             dataTypeControl
         }
-        lineChartView.height(80%).bottom(0).width(100%).left(0)
-        dataTypeControl.height(5%).top(5%).width(60%).left(20%)
+        setLayouts()
         setCharData()
         setData()
     }
-    override func viewDidAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.hidesBarsOnTap = true
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = false
+        
+    func setLayouts() {
+        lineChartView.height(80%).bottom(0).width(100%).left(0)
+        dataTypeControl.height(5%).top(5%).width(60%).left(20%)
+        
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     @objc func handleNumGameControlChange(_ sender: UISegmentedControl) {

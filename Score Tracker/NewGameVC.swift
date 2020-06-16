@@ -148,8 +148,13 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
     @objc func createNewGameTapped() {
         let titleCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? NewGameTitleCell
         var game: Game
-        if let title:String = titleCell?.titleField.text {
-            game = Game(title: title)
+        if let title = titleCell?.titleField.text {
+            if title == "" {
+                game = Game(title: "New Game")
+            }
+            else {
+                game = Game(title: title)
+            }
         }
         else {
             game = Game(title: "Game")
@@ -157,11 +162,13 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         
         for i in 0..<numPlayers {
             let cell = tableView.cellForRow(at: IndexPath(row: i, section: 1)) as? NewPlayerCell
-            if let name = cell?.nameField.text, let color = cell?.colorButton.backgroundColor?.cgColor.components {
-                game.players.append(Player(name: name, color: color))
-            }
-            else {
-                game.players.append(Player(name: "Player\(i+1)", color: [0,0,0]))
+            if let name = cell?.nameField.text, let color = cell?.colorButton.backgroundColor?.cgColor.components  {
+                if name == "" {
+                    game.players.append(Player(name: "Player\(i+1)", color: [0,0,0]))
+                }
+                else {
+                    game.players.append(Player(name: name, color: color))
+                }
             }
         }
         

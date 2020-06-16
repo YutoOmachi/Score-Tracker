@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Stevia
 
 class UpdateCell: UITableViewCell {
     var updateButton = UIButton()
@@ -14,7 +15,9 @@ class UpdateCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        addSubview(updateButton)
+        subviews {
+            updateButton
+        }
         configureUpdateButton()
     }
     required init?(coder: NSCoder) {
@@ -24,7 +27,7 @@ class UpdateCell: UITableViewCell {
     func configureUpdateButton() {
         let text = "Update"
         let attr: [NSAttributedString.Key : Any] = [
-            .font: UIFont.boldSystemFont(ofSize: 24),
+            .font: UIFont.titleFont,
             .foregroundColor: UIColor.white
         ]
         let attrString = NSAttributedString(string: text, attributes: attr)
@@ -33,17 +36,8 @@ class UpdateCell: UITableViewCell {
         updateButton.backgroundColor = UIColor.cellColor
         updateButton.layer.cornerRadius = 40
         
-        setUpdateButtonConstraints()    
+        updateButton.height(80%).width(40%).centerVertically().centerHorizontally()
     }
-    
-    func setUpdateButtonConstraints() {
-        updateButton.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            updateButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4),
-            updateButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.8),
-            updateButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            updateButton.centerYAnchor.constraint(equalTo: centerYAnchor)
-        ])
-    }
+
     
 }
