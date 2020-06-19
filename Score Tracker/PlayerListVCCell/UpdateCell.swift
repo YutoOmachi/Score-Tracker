@@ -10,10 +10,11 @@ import UIKit
 import Stevia
 
 class UpdateCell: UITableViewCell {
-    var updateButton = UIButton()
+    var updateButton = LargeButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.backgroundColor = .backgroundColor
         
         subviews {
             updateButton
@@ -27,7 +28,6 @@ class UpdateCell: UITableViewCell {
     func configureUpdateButton() {
         let text = "Update"
         let attr: [NSAttributedString.Key : Any] = [
-            .font: UIFont.titleFont,
             .foregroundColor: UIColor.white
         ]
         let attrString = NSAttributedString(string: text, attributes: attr)

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Stevia   
 
 class GameListVC: UIViewController {
 
@@ -17,6 +18,9 @@ class GameListVC: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.subviews {
+            tableView
+        }
         setNavController()
         loadGames()
         configureTableView()
@@ -37,19 +41,23 @@ class GameListVC: UIViewController {
     
     func setNavController() {
         self.title = "List of Games"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white, .font: UIFont.myBoldSystemFont(ofSize: 20)]
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: "Futura-Medium", size: 20) ?? UIFont.systemFont(ofSize: 24)]
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewGameTapped))
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back to Top", style: .plain, target: self, action: #selector(backToTop))
+    }
+    
+    @objc func backToTop() {
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     func configureTableView() {
-        view.addSubview(tableView)
         setTableViewDelegates()
         tableView.rowHeight = 80
         tableView.register(GameCell.self, forCellReuseIdentifier: "GameCell")
-        tableView.pin(to: view)
+        tableView.height(100%).width(100%).top(0).left(0)
+        tableView.backgroundColor = UIColor.backgroundColor
     }
     
     func setTableViewDelegates() {
@@ -68,7 +76,9 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "GameCell", for: indexPath) as? GameCell {
             cell.gameNameLabel.text = games[indexPath.row].title
+//            cell.gameNameLabel.textColor = .darkGray
             cell.playerLabel.text = "\(games[indexPath.row].players.count) players"
+            cell.playerLabel.textColor = .gray
             return cell
         }
         return UITableViewCell()

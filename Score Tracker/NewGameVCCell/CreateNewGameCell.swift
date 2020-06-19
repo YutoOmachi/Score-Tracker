@@ -10,11 +10,12 @@ import UIKit
 import Stevia
 
 class CreateNewGameCell: UITableViewCell {
-    var createNewGameButton = UIButton()
+    var createNewGameButton = LargeButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
+        self.backgroundColor = .backgroundColor
         self.subviews {
             createNewGameButton
         }
@@ -25,9 +26,8 @@ class CreateNewGameCell: UITableViewCell {
     }
     
     func configureUpdateButton() {
-        let text = "Create New Game"
+        let text = "Start Game"
         let attr: [NSAttributedString.Key : Any] = [
-            .font: UIFont.titleFont,
             .foregroundColor: UIColor.white
         ]
         let attrString = NSAttributedString(string: text, attributes: attr)

@@ -14,8 +14,8 @@ class PlayerCell: UITableViewCell {
     var playerNameLabel = UILabel()
     var starLabel = UILabel()
     var totalPointsLabel = UILabel()
-    var minusButton = UIButton()
-    var plusButton = UIButton()
+    var minusButton = SmallButton()
+    var plusButton = SmallButton()
     var pointField = UITextField()
     
     var addingPoint:Int = 0 {
@@ -51,8 +51,9 @@ class PlayerCell: UITableViewCell {
     }
     
     func configureCell() {
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.cellColor.cgColor
+//        self.layer.borderWidth = 1
+//        self.layer.borderColor = UIColor.cellColor.cgColor
+        self.backgroundColor = .backgroundColor
     }
     
     func configurePlayerNameLabel()  {
@@ -70,25 +71,24 @@ class PlayerCell: UITableViewCell {
     }
 
     func configureMinusButton() {
-        minusButton.setTitle("-", for: .normal)
-        minusButton.setTitleColor(.black, for: .normal)
         minusButton.addTarget(self, action: #selector(minusOnePoint), for: .touchUpInside)
         minusButton.heightEqualsWidth().centerVertically().width(8%).left(65%)
         minusButton.layer.cornerRadius = self.frame.size.width*0.04
-        minusButton.layer.backgroundColor = UIColor.cyan.cgColor
+        let attr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 24)]
+        minusButton.setAttributedTitle(NSAttributedString(string: "-", attributes: attr), for: .normal)
     }
     
     func configurePlusButton() {
-        plusButton.setTitle("+", for: .normal)
-        plusButton.setTitleColor(.black, for: .normal)
         plusButton.addTarget(self, action: #selector(plusOnePoint), for: .touchUpInside)
         plusButton.heightEqualsWidth().centerVertically().width(8%).left(87%)
         plusButton.layer.cornerRadius = self.frame.size.width*0.04
-        plusButton.layer.backgroundColor = UIColor.cyan.cgColor
+        let attr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 20)]
+        plusButton.setAttributedTitle(NSAttributedString(string: "+", attributes: attr), for: .normal)
     }
     
     func configurePointField() {
         pointField.adjustsFontSizeToFitWidth = true
+        pointField.textColor = .gray
         pointField.textAlignment = .center
         pointField.backgroundColor = .white
         addingPoint = 0

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Stevia
 
 class GameCell: UITableViewCell {
 
@@ -15,9 +16,12 @@ class GameCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        addSubview(gameNameLabel)
-        addSubview(playerLabel)
+        self.backgroundColor = UIColor.backgroundColor
+
+        subviews {
+            gameNameLabel
+            playerLabel
+        }
         
         configureGameNameLabel()
         configurePlayerLabel()
@@ -30,32 +34,13 @@ class GameCell: UITableViewCell {
     func configureGameNameLabel() {
         gameNameLabel.numberOfLines = 0
         gameNameLabel.adjustsFontSizeToFitWidth = true
-        setGameNameLabelConstraints()
+        gameNameLabel.height(80%).left(10%).centerVertically().width(40%)
     }
     
     func configurePlayerLabel() {
         playerLabel.numberOfLines = 0
         playerLabel.adjustsFontSizeToFitWidth = true
-        setPlayerLabelConstraints()
+        playerLabel.height(60%).left(60%).centerVertically().width(20%)
     }
     
-    func setGameNameLabelConstraints() {
-        gameNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            gameNameLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5),
-            gameNameLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4),
-            gameNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 0),
-            gameNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20)
-        ])
-    }
-    
-    func setPlayerLabelConstraints() {
-        playerLabel.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            playerLabel.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2),
-            playerLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.4),
-            playerLabel.topAnchor.constraint(equalTo: gameNameLabel.bottomAnchor, constant: 0),
-            playerLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20)
-        ])
-    }
 }

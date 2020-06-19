@@ -84,6 +84,7 @@ class ChartVC: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        setNavController()
         view.subviews{
             lineChartView
             dataTypeControl
@@ -98,6 +99,16 @@ class ChartVC: UIViewController{
         dataTypeControl.height(5%).top(5%).width(60%).left(20%)
         
         navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    func setNavController() {
+        let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveChartTapped))
+        navigationItem.rightBarButtonItem = saveButton
+    }
+    
+    @objc func saveChartTapped(_ sender: UIBarButtonItem) {
+        guard let chartImage: UIImage = lineChartView.getChartImage(transparent: false) else { return }
+        UIImageWriteToSavedPhotosAlbum(chartImage, nil, nil, nil)
     }
     
     @objc func handleNumGameControlChange(_ sender: UISegmentedControl) {
@@ -160,24 +171,9 @@ class ChartVC: UIViewController{
         for (i, data) in selectedData.enumerated() {
             let set = LineChartDataSet(entries: data, label: "\(players[i].name)")
             
-            var color = UIColor.white
-            
-            switch i%6 {
-            case 0:
-                color = .cellColor
-            case 1:
-                color = .navigationColor
-            case 2:
-                color = .magenta
-            case 3:
-                color = .cyan
-            case 4:
-                color = .lightGray
-            case 5:
-                color = .brown
-            default:
-                color = .red
-            }
+            let colorCode = players[i].color
+            let color = UIColor(red: colorCode[0], green: colorCode[1], blue: colorCode[2], alpha: colorCode[3])
+
             set.setColor(color)
             set.setCircleColor(color)
             

@@ -30,32 +30,59 @@ class NewGameVC: UIViewController {
         view.subviews {
             tableView
         }
-        
-        tableView.pin(to: view)
-        
+        tableView.height(100%).width(100%).top(0).left(0)
+
         configureTableView()
+        setNotification()
     }
     
     func setNavController() {
-        self.title = "Card Game"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: "Futura-Medium", size: 20) ?? UIFont.systemFont(ofSize: 24)]
+        self.title = "New Game"
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back to Top", style: .plain, target: self, action: #selector(backToTop))
+    }
+        
+    @objc func backToTop() {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
+        
+    func setNotification() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillChange), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillChange), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func configureTableView() {
         view.addSubview(tableView)
         setTableViewDelegates()
         tableView.rowHeight = 100
+        tableView.backgroundColor = UIColor.backgroundColor
         tableView.register(NewGameTitleCell.self, forCellReuseIdentifier: "title")
         tableView.register(NewPlayerCell.self, forCellReuseIdentifier: "player")
         tableView.register(CreateNewGameCell.self, forCellReuseIdentifier: "newGame")
-        tableView.pin(to: view)
     }
     
     func setTableViewDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
+    }
+    
+    @objc func keyboardWillChange(_ notification: Notification) {
+
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            tableView.contentInset = .zero
+        } else {
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom + 30, right: 0)
+        }
+
+        tableView.scrollIndicatorInsets = tableView.contentInset
     }
 }
 
@@ -113,7 +140,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         case 1:
             if let cell = tableView.dequeueReusableCell(withIdentifier: "player", for: indexPath) as? NewPlayerCell {
                 cell.nameField.placeholder = "Player\(indexPath.row+1)"
-                let color: UIColor!
+                var color: UIColor
                 switch indexPath.row%6 {
                 case 0:
                     color = .cyan
@@ -130,6 +157,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
                 default:
                     color = .red
                 }
+                
                 cell.colorButton.backgroundColor = color
                 cell.colorButton.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
                 return cell
@@ -162,9 +190,9 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         
         for i in 0..<numPlayers {
             let cell = tableView.cellForRow(at: IndexPath(row: i, section: 1)) as? NewPlayerCell
-            if let name = cell?.nameField.text, let color = cell?.colorButton.backgroundColor?.cgColor.components  {
+            if let name = cell?.nameField.text, let color = cell?.colorButton.backgroundColor?.rgba {
                 if name == "" {
-                    game.players.append(Player(name: "Player\(i+1)", color: [0,0,0]))
+                    game.players.append(Player(name: "Player\(i+1)", color: color))
                 }
                 else {
                     game.players.append(Player(name: name, color: color))
@@ -176,8 +204,12 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         
         let VC = PlayerListVC()
         VC.game = game
-        VC.gameDataDelegate = GameListVC()
+        VC.gameDataDelegate = self.gameDataDelegate
         navigationController?.pushViewController(VC, animated: true)
+        guard let navigationController = self.navigationController else { return }
+        var navigationArray = navigationController.viewControllers
+        navigationArray.remove(at: navigationArray.count - 2)
+        self.navigationController?.viewControllers = navigationArray
     }
     
     @objc func colorButtonTapped(_ sender: UIButton) {

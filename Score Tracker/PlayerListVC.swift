@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Stevia
 
 protocol GameDataDelegate {
     func didGameUpdated(game: Game)
@@ -28,23 +28,52 @@ class PlayerListVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = game?.title
+        view.subviews {
+            tableView
+        }
+        setNotification()
         configureTableView()
         configureNavController()
     }
     
     func configureNavController() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Chart", style: .plain, target: self, action: #selector(chartTapped))
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white, NSAttributedString.Key.font: UIFont(name: "Futura-Medium", size: 20) ?? UIFont.systemFont(ofSize: 24)]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
     }
     
+    func setNotification() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillChange), name: UIResponder.keyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(keyboardWillChange), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func keyboardWillChange(_ notification: Notification) {
+
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            tableView.contentInset = .zero
+        } else {
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom + 30, right: 0)
+        }
+
+        tableView.scrollIndicatorInsets = tableView.contentInset
+    }
     
     func configureTableView() {
         setTableViewDelegates()
-        view.addSubview(tableView)
         tableView.rowHeight = 100
+        tableView.backgroundColor = UIColor.backgroundColor
         tableView.register(UpdateCell.self, forCellReuseIdentifier: "UpdateCell")
         tableView.register(PlayerCell.self, forCellReuseIdentifier: "PlayerCell")
-        tableView.pin(to: view)
+        tableView.height(100%).width(100%).top(0).left(0)
     }
     
     func setTableViewDelegates() {
@@ -71,9 +100,47 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         return game?.players.count ?? 0
     }
 
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 0 {
+            let headerHeight: CGFloat = 50.0
+            let headerView = UIView()
+            headerView.heightAnchor.constraint(equalToConstant: headerHeight).isActive = true
+            headerView.backgroundColor = UIColor.navigationColor.withAlphaComponent(0.5)
+            
+            let nameLabel = UILabel()
+            let rankLabel = UILabel()
+            let totalPointsLabel = UILabel()
+            let addingPointLabel = UILabel()
+            
+            headerView.subviews {
+                nameLabel
+                rankLabel
+                totalPointsLabel
+                addingPointLabel
+            }
+            
+            nameLabel.height(80%).centerVertically().width(25%).left(20)
+            rankLabel.height(80%).centerVertically().width(10%).left(27%)
+            totalPointsLabel.height(80%).centerVertically().width(15%).left(47%)
+            addingPointLabel.height(80%).centerVertically().width(20%).left(76%)
+            
+            let attr: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.darkGray,
+                                                       .font: UIFont.mySystemFont(ofSize: 16)
+            ]
+            
+            nameLabel.attributedText = NSAttributedString(string: "Name", attributes: attr)
+            rankLabel.attributedText = NSAttributedString(string: "Rank", attributes: attr)
+            totalPointsLabel.attributedText = NSAttributedString(string: "Total", attributes: attr)
+            addingPointLabel.attributedText = NSAttributedString(string: "Add", attributes: attr)
+            
+            return headerView
+        }
+
+        return UIView()
+    }
 
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        let footerHeight:CGFloat = 20.0
+        let footerHeight:CGFloat = 10.0
         let view = UIView()
         view.heightAnchor.constraint(equalToConstant: footerHeight).isActive = true
         return view
@@ -86,7 +153,6 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "UpdateCell", for: indexPath) as? UpdateCell {
                 cell.selectionStyle = .none
                 cell.updateButton.addTarget(self, action: #selector(updateTapped), for: .touchUpInside)
-
                 return cell
             }
         }
@@ -96,18 +162,33 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             cell.playerNameLabel.text = game.players[indexPath.row].name
             cell.totalPointsLabel.text = "\(game.players[indexPath.row].pastPoints.last! )"
             
+            let colorCode = game.players[indexPath.row].color
+            let playerColor = UIColor(red: colorCode[0], green: colorCode[1], blue: colorCode[2], alpha: colorCode[3])
+            let buttonAttr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 18), .foregroundColor: playerColor, .strokeColor: UIColor.black, .strokeWidth: -3]
+            cell.playerNameLabel.attributedText = NSAttributedString(string: "\(game.players[indexPath.row].name)", attributes: buttonAttr)
+//            cell.minusButton.setAttributedTitle(NSAttributedString(string: "-", attributes: buttonAttr), for: .normal)
+            
             let text = "★"
             var attr = [NSAttributedString.Key: Any]()
             
             switch game.players[indexPath.row].pastRanks.last! {
             case 1:
-                attr = [.foregroundColor: UIColor.gold, .font: UIFont.systemFont(ofSize: 24)]
+                attr = [.foregroundColor: UIColor.gold,
+                        .strokeColor: UIColor.black,
+                        .strokeWidth: -1
+                ]
                 cell.starLabel.attributedText = NSAttributedString(string: text, attributes: attr)
             case 2:
-                attr = [.foregroundColor: UIColor.silver, .font: UIFont.systemFont(ofSize: 24)]
+                attr = [.foregroundColor: UIColor.silver,
+                        .strokeColor: UIColor.black,
+                        .strokeWidth: -1
+                ]
                 cell.starLabel.attributedText = NSAttributedString(string: text, attributes: attr)
             case 3:
-                attr = [.foregroundColor: UIColor.bronze, .font: UIFont.systemFont(ofSize: 24)]
+                attr = [.foregroundColor: UIColor.bronze,
+                        .strokeColor: UIColor.black,
+                        .strokeWidth: -1
+                ]
                 cell.starLabel.attributedText = NSAttributedString(string: text, attributes: attr)
             default:
                 cell.starLabel.attributedText = nil

@@ -10,7 +10,7 @@ import UIKit
 import Stevia
 
 class NewPlayerCell: UITableViewCell {
-    var colorButton = UIButton()
+    var colorButton = SmallButton()
     var nameLabel = UILabel()
     var nameField = UITextField()
     var handicapLabel = UILabel()
@@ -19,6 +19,8 @@ class NewPlayerCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
+        self.backgroundColor = UIColor.backgroundColor
+
         self.subviews {
             colorButton
             nameLabel
@@ -45,7 +47,6 @@ class NewPlayerCell: UITableViewCell {
     func configureNameLabel() {
         nameLabel.height(20%).top(10%).width(40%).left(20%)
         nameLabel.text = "Player Name"
-        nameLabel.font = UIFont(name: "Future-Medium", size: 16)
         nameLabel.textColor = UIColor.gray
     }
     
@@ -54,6 +55,8 @@ class NewPlayerCell: UITableViewCell {
         nameField.layer.borderWidth = 1
         nameField.layer.borderColor = UIColor.lightGray.cgColor
         nameField.textAlignment = .center
+        nameField.autocorrectionType = .no
+        setExitterForNameField()
     }
     
     func configureHandicapLabel() {
@@ -70,4 +73,17 @@ class NewPlayerCell: UITableViewCell {
         handicapField.keyboardType = .numberPad
     }
 
+    func setExitterForNameField() {
+        let toolbar = UIToolbar(frame: CGRect(origin: .zero, size: .init(width: 100, height: 30)))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBtn = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissKeyboard))
+        toolbar.setItems([flexSpace, doneBtn], animated: false)
+        toolbar.sizeToFit()
+        
+        nameField.inputAccessoryView = toolbar
+    }
+    
+    @objc func dismissKeyboard() {
+        superview?.endEditing(true)
+    }
 }
