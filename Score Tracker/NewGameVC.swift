@@ -182,14 +182,14 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         var game: Game
         if let title = titleCell?.titleField.text {
             if title == "" {
-                game = Game(title: "New Game")
+                game = Game(title: "New Game", firstCreated: Date())
             }
             else {
-                game = Game(title: title)
+                game = Game(title: title, firstCreated: Date())
             }
         }
         else {
-            game = Game(title: "Game")
+            game = Game(title: "New Game", firstCreated: Date())
         }
         
         for i in 0..<numPlayers {

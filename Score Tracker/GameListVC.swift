@@ -75,7 +75,7 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "GameCell", for: indexPath) as? GameCell {
             cell.gameNameLabel.text = games[indexPath.row].title
             cell.playerLabel.text = "\(games[indexPath.row].players.count) players"
-            cell.playerLabel.textColor = .gray
+            cell.lastEdittedLable.text = games[indexPath.row].getFormattedLastEditted()
             return cell
         }
         return UITableViewCell()
@@ -84,10 +84,13 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let VC = PlayerListVC()
         VC.gameDataDelegate = self
-        VC.game = games[indexPath.row]
+        let selectedGame = games[indexPath.row]
+        selectedGame.updateLastEditted()
+        VC.game = selectedGame
         games.remove(at: indexPath.row)
-        games.insert(VC.game, at: 0)
+        games.insert(selectedGame, at: 0)
         navigationController?.pushViewController(VC, animated: true)
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

@@ -13,6 +13,7 @@ class GameCell: UITableViewCell {
 
     var gameNameLabel = UILabel()
     var playerLabel = UILabel()
+    var lastEdittedLable = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -21,10 +22,12 @@ class GameCell: UITableViewCell {
         subviews {
             gameNameLabel
             playerLabel
+            lastEdittedLable
         }
         
         configureGameNameLabel()
         configurePlayerLabel()
+        configureLastEdittedLabel()
     }
     
     required init?(coder: NSCoder) {
@@ -38,9 +41,17 @@ class GameCell: UITableViewCell {
     }
     
     func configurePlayerLabel() {
-        playerLabel.numberOfLines = 0
+        playerLabel.numberOfLines = 1
         playerLabel.adjustsFontSizeToFitWidth = true
-        playerLabel.height(60%).left(60%).centerVertically().width(20%)
+        playerLabel.textColor = .gray
+        playerLabel.height(30%).left(60%).top(15%).width(20%)
+    }
+    
+    func configureLastEdittedLabel() {
+        lastEdittedLable.numberOfLines = 1
+        lastEdittedLable.adjustsFontSizeToFitWidth = true
+        lastEdittedLable.textColor = .gray
+        lastEdittedLable.height(30%).left(60%).top(55%).width(20%)
     }
     
 }

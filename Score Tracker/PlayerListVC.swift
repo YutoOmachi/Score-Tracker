@@ -49,6 +49,7 @@ class PlayerListVC: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self)
+        game.updateLastEditted()
     }
 
     @objc func keyboardWillChange(_ notification: Notification) {
@@ -166,7 +167,6 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             let playerColor = UIColor(red: colorCode[0], green: colorCode[1], blue: colorCode[2], alpha: colorCode[3])
             let buttonAttr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 18), .foregroundColor: playerColor, .strokeColor: UIColor.black, .strokeWidth: -3]
             cell.playerNameLabel.attributedText = NSAttributedString(string: "\(game.players[indexPath.row].name)", attributes: buttonAttr)
-//            cell.minusButton.setAttributedTitle(NSAttributedString(string: "-", attributes: buttonAttr), for: .normal)
             
             let text = "★"
             var attr = [NSAttributedString.Key: Any]()
@@ -201,14 +201,36 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func updateTapped() {
-        var playersArray = [Player]()
-        
+        var allZero = true
         for i in 0..<game.players.count {
             if let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? PlayerCell {
-                game.players[i].pastPoints.append(game.players[i].pastPoints.last! + cell.addingPoint)
-                cell.addingPoint = 0
+                if (Int(cell.pointField.text ?? "0") ?? 0) != 0 {
+                    allZero = false
+                    break
+                }
+            }
+        }
+        
+        if allZero {
+            let ac = UIAlertController(title: "Update?", message: "All players have 0 points added.\nDo you still want to update?", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Update", style: .default) { [weak self] _ in
+                self?.update()
+            })
+            ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            present(ac, animated: true)
+        }
+        else {
+            update()
+        }
+    }
+    
+    func update() {
+        var playersArray = [Player]()
+        for i in 0..<game.players.count {
+            if let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? PlayerCell, let addingPoint = cell.pointField.text{
+                game.players[i].pastPoints.append(game.players[i].pastPoints.last! + (Int(addingPoint) ?? 0))
+                cell.pointField.text = ""
                 playersArray.append(game.players[i])
-
             }
         }
         
@@ -217,9 +239,8 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         for (i, player) in sortedPlayers.enumerated() {
             player.pastRanks.append(i+1)
         }
-
+        game.updateLastEditted()
         gameDataDelegate.didGameUpdated(game: game)
         tableView.reloadData()
     }
-    
 }

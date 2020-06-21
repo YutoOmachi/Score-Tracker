@@ -17,12 +17,6 @@ class PlayerCell: UITableViewCell {
     var minusButton = SmallButton()
     var plusButton = SmallButton()
     var pointField = UITextField()
-    
-    var addingPoint:Int = 0 {
-        didSet {
-            pointField.text = "\(addingPoint)"
-        }
-    }
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -87,31 +81,27 @@ class PlayerCell: UITableViewCell {
     }
     
     func configurePointField() {
-        pointField.adjustsFontSizeToFitWidth = true
+        pointField.placeholder = "0"
         pointField.textColor = .gray
         pointField.textAlignment = .center
         pointField.backgroundColor = .white
-        addingPoint = 0
         pointField.keyboardType = .numberPad
         pointField.layer.borderWidth = 1
         pointField.layer.borderColor = UIColor.lightGray.cgColor
-        pointField.addTarget(self, action: #selector(pointFieldDidChange), for: .editingChanged)
         setExitterForPointField()
         pointField.height(50%).centerVertically().width(10%).left(75%)
     }
     
     
     @objc func plusOnePoint(sender: UIButton) {
-        addingPoint += 1
+        if let addPoint = pointField.text {
+            pointField.text = "\((Int(addPoint) ?? 0) + 1)"
+        }
     }
     
     @objc func minusOnePoint(sender: UIButton) {
-        addingPoint -= 1
-    }
-    
-    @objc func pointFieldDidChange() {
-        if let newPoint = pointField.text {
-            addingPoint = Int(newPoint) ?? addingPoint
+        if let addPoint = pointField.text {
+            pointField.text = "\((Int(addPoint) ?? 0) - 1)"
         }
     }
     
