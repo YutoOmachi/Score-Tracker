@@ -14,9 +14,9 @@ enum DataType {
     case Point
     case Rank
 }
-enum NumGame {
+enum Visible {
     case all
-    case past10
+    case ten
 }
 
 class ChartVC: UIViewController{
@@ -24,21 +24,18 @@ class ChartVC: UIViewController{
     var players = [Player]()
     
     var pointData = [[ChartDataEntry]]()
-    var recentPointData = [[ChartDataEntry]]()
-    
     var rankData = [[ChartDataEntry]]()
-    var recentRankData = [[ChartDataEntry]]()
     
     var dataType = DataType.Point
-    var numGame = NumGame.all
+    var visibleGame = Visible.all
     
-    let numGameControl: UISegmentedControl = {
-        let sc = UISegmentedControl(items: ["ALL", "Past 10"])
+    let visibleGameControl: UISegmentedControl = {
+        let sc = UISegmentedControl(items: ["Overview", "Zoom to 10"])
         sc.translatesAutoresizingMaskIntoConstraints = false
         sc.tintColor = UIColor.white
         sc.selectedSegmentIndex = 0
 
-        sc.addTarget(self, action: #selector(handleNumGameControlChange), for: .valueChanged)
+        sc.addTarget(self, action: #selector(handleVisibleGameControlChange), for: .valueChanged)
         return sc
     }()
     
@@ -88,6 +85,7 @@ class ChartVC: UIViewController{
         view.subviews{
             lineChartView
             dataTypeControl
+            visibleGameControl
         }
         setLayouts()
         setCharData()
@@ -96,7 +94,8 @@ class ChartVC: UIViewController{
         
     func setLayouts() {
         lineChartView.height(80%).bottom(0).width(100%).left(0)
-        dataTypeControl.height(5%).top(5%).width(60%).left(20%)
+        dataTypeControl.height(5%).top(3%).width(60%).left(20%)
+        visibleGameControl.height(5%).top(10%).width(60%).left(20%)
         
         navigationController?.navigationBar.isTranslucent = false
     }
@@ -107,18 +106,30 @@ class ChartVC: UIViewController{
     }
     
     @objc func saveChartTapped(_ sender: UIBarButtonItem) {
-        guard let chartImage: UIImage = lineChartView.getChartImage(transparent: false) else { return }
+        guard let chartImage: UIImage = lineChartView.getChartImage(transparent: false) else { savingFailed(); return }
         UIImageWriteToSavedPhotosAlbum(chartImage, nil, nil, nil)
+        savingSucceded()
     }
     
-    @objc func handleNumGameControlChange(_ sender: UISegmentedControl) {
+    func savingFailed() {
+        let ac = UIAlertController(title: "Failed", message: "Something went wrong! Unable to save the chart", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        present(ac, animated: true)
+    }
+    
+    func savingSucceded() {
+        let ac = UIAlertController(title: "Successfull", message: "Chart saved to your photo album!", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(ac, animated: true)
+    }
+    
+    @objc func handleVisibleGameControlChange(_ sender: UISegmentedControl) {
         switch sender.selectedSegmentIndex {
         case 1:
-            numGame = .past10
+            visibleGame = .ten
         default:
-            numGame = .all
+            visibleGame = .all
         }
-        
         setData()
     }
     
@@ -142,8 +153,6 @@ class ChartVC: UIViewController{
             }
             pointData.append(pData)
             rankData.append(rData)
-            recentPointData.append(pData.suffix(10))
-            recentRankData.append(rData.suffix(10))
         }
     }
     
@@ -152,20 +161,11 @@ class ChartVC: UIViewController{
         var dataSets = [LineChartDataSet]()
         var selectedData = [[ChartDataEntry]]()
         if dataType == .Point {
-            if numGame == .all {
-                selectedData = pointData
-            }
-            else {
-                selectedData = recentPointData
-            }
+            selectedData = pointData
         }
         else {
-            if numGame == .all {
-                selectedData = rankData
-            }
-            else {
-                selectedData = recentRankData
-            }
+            selectedData = rankData
+
         }
         
         for (i, data) in selectedData.enumerated() {
@@ -199,7 +199,14 @@ class ChartVC: UIViewController{
         let data = LineChartData(dataSets: dataSets)
         data.setDrawValues(false)
         lineChartView.data = data
-        lineChartView.setVisibleXRangeMaximum(10.0)
+        
+        if visibleGame == .all {
+            lineChartView.moveViewToX(0)
+            lineChartView.setVisibleXRange(minXRange: Double(dataSets[0].count), maxXRange: Double.infinity)
+        }
+        else {
+            lineChartView.setVisibleXRange(minXRange: 0, maxXRange: 10)
+        }
         lineChartView.moveViewToX(Double(players[0].pastPoints.count))
     }
 

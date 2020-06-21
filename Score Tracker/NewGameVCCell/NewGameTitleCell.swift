@@ -20,6 +20,7 @@ class NewGameTitleCell: UITableViewCell {
             titleField
         }
         configureTitleField()
+        setExitterForTitleField()
     }
     
     required init?(coder: NSCoder) {
@@ -35,4 +36,17 @@ class NewGameTitleCell: UITableViewCell {
         titleField.autocorrectionType = .no
     }
 
+    func setExitterForTitleField() {
+        let toolbar = UIToolbar(frame: CGRect(origin: .zero, size: .init(width: 100, height: 30)))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBtn = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(dismissKeyboard))
+        toolbar.setItems([flexSpace, doneBtn], animated: false)
+        toolbar.sizeToFit()
+        
+        titleField.inputAccessoryView = toolbar
+    }
+    
+    @objc func dismissKeyboard() {
+        superview?.endEditing(true)
+    }
 }

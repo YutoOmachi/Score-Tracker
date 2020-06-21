@@ -11,8 +11,6 @@ import Stevia
 
 class GameListVC: UIViewController {
 
-    let gameNames = ["card", "poker", "smashBroz"]
-    let numPlayers = [4, 3, 5]
     let tableView = UITableView()
     var games = [Game]()
         
@@ -41,11 +39,11 @@ class GameListVC: UIViewController {
     
     func setNavController() {
         self.title = "List of Games"
-        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white, .font: UIFont.myBoldSystemFont(ofSize: 20)]
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white, .font: UIFont.myBoldSystemFont(ofSize: 22)]
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewGameTapped))
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back to Top", style: .plain, target: self, action: #selector(backToTop))
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToTop))
     }
     
     @objc func backToTop() {
@@ -76,7 +74,6 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "GameCell", for: indexPath) as? GameCell {
             cell.gameNameLabel.text = games[indexPath.row].title
-//            cell.gameNameLabel.textColor = .darkGray
             cell.playerLabel.text = "\(games[indexPath.row].players.count) players"
             cell.playerLabel.textColor = .gray
             return cell
@@ -96,9 +93,7 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Delete"){
             [weak self] (action, view, nil) in
-            self?.games.remove(at: indexPath.row)
-            self?.tableView.reloadData()
-            self?.save()
+            self?.deleteTapped(indexPath: indexPath)
         }
         delete.image = UIImage(systemName: "trash")
         let config = UISwipeActionsConfiguration(actions: [delete])
@@ -106,6 +101,17 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
         return config
     }
     
+    func deleteTapped(indexPath: IndexPath) {
+        let ac = UIAlertController(title: "Delete?", message: "Do you really want to delete? \n(deleted game can't be restored)", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "Delete", style: .destructive){
+                [weak self] _ in
+                self?.games.remove(at: indexPath.row)
+                self?.tableView.reloadData()
+                self?.save()
+        })
+        ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(ac, animated: true)
+    }
     
     @objc func addNewGameTapped() {
         let VC = NewGameVC()

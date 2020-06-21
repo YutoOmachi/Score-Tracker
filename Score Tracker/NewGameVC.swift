@@ -38,10 +38,10 @@ class NewGameVC: UIViewController {
     
     func setNavController() {
         self.title = "New Game"
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white, .font: UIFont.myBoldSystemFont(ofSize: 22)]
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back to Top", style: .plain, target: self, action: #selector(backToTop))
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToTop))
     }
         
     @objc func backToTop() {
@@ -118,7 +118,11 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
             label.textColor = .white
             addPlayerButton.height(60%).width(10%).right(0).centerVertically()
             addPlayerButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
-            addPlayerButton.tintColor = .black
+            addPlayerButton.tintColor = .white
+            addPlayerButton.layer.shadowColor = UIColor.black.cgColor
+            addPlayerButton.layer.shadowRadius = 4
+            addPlayerButton.layer.shadowOffset = CGSize(width: 0.0, height: 2.0)
+            addPlayerButton.layer.shadowOpacity = 0.5
             addPlayerButton.addTarget(self, action: #selector(addPlayerTapped), for: .touchUpInside)
             
             return footerView

@@ -28,7 +28,8 @@ class CreateNewGameCell: UITableViewCell {
     func configureUpdateButton() {
         let text = "Start Game"
         let attr: [NSAttributedString.Key : Any] = [
-            .foregroundColor: UIColor.white
+            .foregroundColor: UIColor.white, 
+            .font: UIFont.myBoldSystemFont(ofSize: 22)
         ]
         let attrString = NSAttributedString(string: text, attributes: attr)
         createNewGameButton.setAttributedTitle(attrString, for: .normal)
