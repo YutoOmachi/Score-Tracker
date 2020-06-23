@@ -11,8 +11,8 @@ import UIKit
 
 class Player: NSObject, Codable {
     var name: String
-    var pastRanks = [1]
-    var pastPoints = [0]
+    var pastRanks = [Int]()
+    var pastPoints = [Int]()
     var color:[CGFloat]
     
     init(name: String, color: [CGFloat]) {

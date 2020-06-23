@@ -51,6 +51,11 @@ class PlayerListVC: UIViewController {
         NotificationCenter.default.removeObserver(self)
         game.updateLastEditted()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setNotification()
+        tableView.reloadData()
+    }
 
     @objc func keyboardWillChange(_ notification: Notification) {
 
@@ -96,7 +101,7 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
-            return 1
+            return 2
         }
         return game?.players.count ?? 0
     }
@@ -153,7 +158,24 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         if  indexPath.section == 1 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "UpdateCell", for: indexPath) as? UpdateCell {
                 cell.selectionStyle = .none
-                cell.updateButton.addTarget(self, action: #selector(updateTapped), for: .touchUpInside)
+                var text: String?
+                if indexPath.row == 0 {
+                    text = "Update"
+                    cell.updateButton.addTarget(self, action: #selector(updateTapped), for: .touchUpInside)
+                    cell.updateButton.backgroundColor = UIColor.cellColor
+                }
+                else if indexPath.row == 1 {
+                    cell.updateButton.addTarget(self, action: #selector(historyTapped), for: .touchUpInside)
+                    text = "History"
+                    cell.updateButton.backgroundColor = .gray
+                }
+                
+                let attr: [NSAttributedString.Key : Any] = [
+                    .foregroundColor: UIColor.white,
+                    .font: UIFont.myBoldSystemFont(ofSize: 22)
+                ]
+                let attrString = NSAttributedString(string: text ?? "", attributes: attr)
+                cell.updateButton.setAttributedTitle(attrString, for: .normal)
                 return cell
             }
         }
@@ -161,7 +183,7 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCell", for: indexPath) as? PlayerCell{
             cell.selectionStyle = .none
             cell.playerNameLabel.text = game.players[indexPath.row].name
-            cell.totalPointsLabel.text = "\(game.players[indexPath.row].pastPoints.last! )"
+            cell.totalPointsLabel.text = "\(game.players[indexPath.row].pastPoints.last ?? 0)"
             
             let colorCode = game.players[indexPath.row].color
             let playerColor = UIColor(red: colorCode[0], green: colorCode[1], blue: colorCode[2], alpha: colorCode[3])
@@ -171,7 +193,7 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             let text = "★"
             var attr = [NSAttributedString.Key: Any]()
             
-            switch game.players[indexPath.row].pastRanks.last! {
+            switch game.players[indexPath.row].pastRanks.last ?? 0 {
             case 1:
                 attr = [.foregroundColor: UIColor.gold,
                         .strokeColor: UIColor.black,
@@ -224,17 +246,23 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    @objc func historyTapped() {
+        let VC = HistoryVC()
+        VC.game = game
+        navigationController?.pushViewController(VC, animated: true)
+    }
+    
     func update() {
         var playersArray = [Player]()
         for i in 0..<game.players.count {
             if let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? PlayerCell, let addingPoint = cell.pointField.text{
-                game.players[i].pastPoints.append(game.players[i].pastPoints.last! + (Int(addingPoint) ?? 0))
+                game.players[i].pastPoints.append((game.players[i].pastPoints.last ?? 0) + (Int(addingPoint) ?? 0))
                 cell.pointField.text = ""
                 playersArray.append(game.players[i])
             }
         }
         
-        let sortedPlayers = playersArray.sorted(by: {$0.pastPoints.last! > $1.pastPoints.last!})
+        let sortedPlayers = playersArray.sorted(by: {$0.pastPoints.last ?? 0 > $1.pastPoints.last ?? 0})
         
         for (i, player) in sortedPlayers.enumerated() {
             player.pastRanks.append(i+1)

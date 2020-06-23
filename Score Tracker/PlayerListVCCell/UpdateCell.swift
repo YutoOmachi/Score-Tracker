@@ -26,15 +26,6 @@ class UpdateCell: UITableViewCell {
     }
     
     func configureUpdateButton() {
-        let text = "Update"
-        let attr: [NSAttributedString.Key : Any] = [
-            .foregroundColor: UIColor.white,
-            .font: UIFont.myBoldSystemFont(ofSize: 22)
-        ]
-        let attrString = NSAttributedString(string: text, attributes: attr)
-        updateButton.setAttributedTitle(attrString, for: .normal)
-        
-        updateButton.backgroundColor = UIColor.cellColor
         updateButton.layer.cornerRadius = 40
         
         updateButton.height(80%).width(40%).centerVertically().centerHorizontally()

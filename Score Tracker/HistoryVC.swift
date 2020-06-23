@@ -12,9 +12,8 @@ import Stevia
 class HistoryVC: UIViewController {
     
     let tableView = UITableView()
-    var players = ["Aya", "Sara", "Tomo", "Ted", "Yuto", "Abrakadabra SesamiStreet"]
-    var gameScore = [[0,4,0,1,0,0],[0,0,0,2,0,1],[1,0,0,0,0,1],[0,0,0,2,0,1],[0,0,0,2,0,1],[0,0,0,2,0,1]]
-    
+    var game: Game!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,16 +35,21 @@ class HistoryVC: UIViewController {
 
 extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return gameScore.count
+        return game.players[0].pastPoints.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "history", for: indexPath) as? HistoryCell{
-            cell.numCol = players.count
+            cell.numCol = game.players.count
             cell.labels[0].text = "\(indexPath.row+1)"
             for (i, label) in cell.labels.enumerated() {
                 if i != 0 {
-                    label.text = "\(gameScore[indexPath.row][i-1])"
+                    if indexPath.row == 0 {
+                        label.text = "\(game.players[i-1].pastPoints[indexPath.row])"
+                    }
+                    else {
+                        label.text = "\(game.players[i-1].pastPoints[indexPath.row] - game.players[i-1].pastPoints[indexPath.row-1])"
+                    }
                 }
             }
             return cell
@@ -57,12 +61,11 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         view.height(tableView.rowHeight).width(100%)
-        view.backgroundColor = .cellColor
         
-        let width: Double = Double(100)/Double(players.count+1)
+        let width: Double = Double(100)/Double(game.players.count+1)
         var currLeft: Double = 0.01
         
-        for i in 0...players.count {
+        for i in 0...game.players.count {
             let label = UILabel()
             view.subviews {
                 label
@@ -76,7 +79,11 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
             label.numberOfLines = 0
             
             if i != 0 {
-                label.text = players[i-1]
+                label.text = game.players[i-1].name
+                label.backgroundColor = .cellColor
+            }
+            else {
+                label.backgroundColor = .backgroundColor
             }
         }
         return view
@@ -85,20 +92,70 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .destructive, title: "Delete"){
             [weak self] (action, view, nil) in
-            self?.deleteTapped(indexPath: indexPath)
+            self?.deleteTapped(row: indexPath.row)
         }
         let config = UISwipeActionsConfiguration(actions: [delete])
         config.performsFirstActionWithFullSwipe = true
         return config
     }
     
-    func deleteTapped(indexPath: IndexPath) {
+    func deleteTapped(row: Int) {
         let ac = UIAlertController(title: "Delete this round?", message: "Once you deleted, the score cannot be restored", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Delete", style: .destructive){ [weak self] _ in
-            self?.gameScore.remove(at: indexPath.row)
+            self?.updatePastRecords(row: row)
             self?.tableView.reloadData()
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(ac, animated: true)
+    }
+    
+    func updatePastRecords(row: Int) {
+        
+        var playersArray = [Player]()
+        //Delete the designated round score and Update all the scores
+        for i in 0..<game.players.count {
+//            print("points(before): \(game.players[i].pastPoints)")
+//            print("ranks(before): \(game.players[i].pastRanks)")
+            playersArray.append(game.players[i])
+            
+            //If deleting first round
+            if row == 0 {
+                if game.players[i].pastRanks.count == 1 {
+                    game.players[i].pastPoints.remove(at: 0)
+                }
+                else {
+                    let score =  game.players[i].pastPoints[0]
+//                    print("Deleted Score: \(score)")
+                    game.players[i].pastPoints.remove(at: 0)
+                    for j in 0..<game.players[i].pastPoints.count {
+                        game.players[i].pastPoints[j] -= score
+                    }
+                }
+            }
+            
+            else {
+                let score =  game.players[i].pastPoints[row] - game.players[i].pastPoints[row-1]
+//                print("Deleted Score: \(score)")
+                game.players[i].pastPoints.remove(at: row)
+                for j in row..<game.players[i].pastPoints.count {
+                    game.players[i].pastPoints[j] -= score
+                }
+            }
+            
+            let lastIndex = game.players[i].pastRanks.count
+            game.players[i].pastRanks.remove(at: lastIndex - 1)
+//            print("points(after): \(game.players[i].pastPoints)")
+//            print("ranks(after): \(game.players[i].pastRanks)")
+        }
+                
+        //Update all the ranks
+        for round in row..<game.players[0].pastPoints.count {
+            playersArray.sort(by: {$0.pastPoints[round] > $1.pastPoints[round]})
+            for (i, player) in playersArray.enumerated() {
+                player.pastRanks[round] =  i+1
+            }
+        }
+        
+        tableView.reloadData()
     }
 }
