@@ -77,7 +77,7 @@ class PlayerListVC: UIViewController {
     
     func configureTableView() {
         setTableViewDelegates()
-        tableView.rowHeight = 100
+        tableView.rowHeight = 120
         tableView.backgroundColor = UIColor.backgroundColor
         tableView.register(UpdateCell.self, forCellReuseIdentifier: "UpdateCell")
         tableView.register(PlayerCell.self, forCellReuseIdentifier: "PlayerCell")
@@ -135,8 +135,8 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             
             nameLabel.height(80%).centerVertically().width(25%).left(20)
             rankLabel.height(80%).centerVertically().width(10%).left(27%)
-            totalPointsLabel.height(80%).centerVertically().width(15%).left(47%)
-            addingPointLabel.height(80%).centerVertically().width(20%).left(76%)
+            totalPointsLabel.height(80%).centerVertically().width(15%).left(44%)
+            addingPointLabel.height(80%).centerVertically().width(20%).left(72%)
             
             let attr: [NSAttributedString.Key: Any] = [.foregroundColor: UIColor.darkGray,
                                                        .font: UIFont.mySystemFont(ofSize: 16)

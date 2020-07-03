@@ -36,6 +36,8 @@ class NewGameVC: UIViewController {
 
         configureTableView()
         setNotification()
+        
+        print(tableView.footerView(forSection: 0)?.frame.size)
     }
     
     func setNavController() {
@@ -59,7 +61,7 @@ class NewGameVC: UIViewController {
     func configureTableView() {
         view.addSubview(tableView)
         setTableViewDelegates()
-        tableView.rowHeight = 100
+        tableView.rowHeight = 120
         tableView.backgroundColor = UIColor.backgroundColor
         tableView.register(NewGameTitleCell.self, forCellReuseIdentifier: "title")
         tableView.register(NewPlayerCell.self, forCellReuseIdentifier: "player")
@@ -106,7 +108,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if section == 0 {
-            let footerView = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.rowHeight*0.7))
+            let footerView = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.rowHeight/2))
             footerView.backgroundColor = UIColor.cellColor
             
             let label = UILabel()
@@ -116,10 +118,15 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
                 addPlayerButton
             }
             label.height(60%).width(20%).left(5%).centerVertically()
-            label.text = "Players"
-            label.textColor = .white
-            addPlayerButton.height(60%).width(10%).right(0).centerVertically()
-            addPlayerButton.setImage(UIImage(systemName: "plus.circle"), for: .normal)
+            let text = "Players"
+            let attr: [NSAttributedString.Key:Any] = [
+                .font: UIFont.mySystemFont(ofSize: 22),
+                .foregroundColor: UIColor.white
+            ]
+            label.attributedText = NSAttributedString(string: text, attributes: attr)
+            addPlayerButton.height(90%).width(20%).right(0).centerVertically()
+            let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .regular, scale: .large)
+            addPlayerButton.setImage(UIImage(systemName: "plus.circle", withConfiguration: config), for: .normal)
             addPlayerButton.tintColor = .white
             addPlayerButton.layer.shadowColor = UIColor.black.cgColor
             addPlayerButton.layer.shadowRadius = 4
@@ -136,6 +143,12 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         return UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
     }
     
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        if section == 0 {
+            return tableView.rowHeight/2
+        }
+        return tableView.rowHeight/3
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
@@ -220,6 +233,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func colorButtonTapped(_ sender: UIButton) {
+
         selectedCell = sender.superview?.superview as? NewPlayerCell
         colorPickerController = DefaultColorPickerViewController()
         colorPickerController.delegate = self

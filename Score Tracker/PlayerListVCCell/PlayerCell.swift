@@ -77,23 +77,27 @@ class PlayerCell: UITableViewCell {
     
     func configureTotalPointsLabel() {
         totalPointsLabel.adjustsFontSizeToFitWidth = true
-        totalPointsLabel.height(60%).centerVertically().width(15%).left(50%)
+        totalPointsLabel.height(60%).centerVertically().width(15%).left(45%)
     }
 
     func configureMinusButton() {
         minusButton.addTarget(self, action: #selector(minusOnePoint), for: .touchUpInside)
-        minusButton.heightEqualsWidth().centerVertically().width(8%).left(65%)
+        minusButton.heightEqualsWidth().centerVertically().width(10%).left(58%)
         minusButton.layer.cornerRadius = self.frame.size.width*0.04
-        let attr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 24)]
+        let attr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 26)]
         minusButton.setAttributedTitle(NSAttributedString(string: "-", attributes: attr), for: .normal)
+        minusButton.layer.borderWidth = 1
+        minusButton.layer.borderColor = UIColor.whiteGray.cgColor
     }
     
     func configurePlusButton() {
         plusButton.addTarget(self, action: #selector(plusOnePoint), for: .touchUpInside)
-        plusButton.heightEqualsWidth().centerVertically().width(8%).left(87%)
+        plusButton.heightEqualsWidth().centerVertically().width(10%).left(88%)
         plusButton.layer.cornerRadius = self.frame.size.width*0.04
-        let attr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 20)]
+        let attr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 24)]
         plusButton.setAttributedTitle(NSAttributedString(string: "+", attributes: attr), for: .normal)
+        plusButton.layer.borderWidth = 1
+        plusButton.layer.borderColor = UIColor.whiteGray.cgColor
     }
     
     func configurePointField() {
@@ -105,7 +109,7 @@ class PlayerCell: UITableViewCell {
         pointField.layer.borderWidth = 1
         pointField.layer.borderColor = UIColor.lightGray.cgColor
         setExitterForPointField()
-        pointField.height(50%).centerVertically().width(10%).left(75%)
+        pointField.height(50%).centerVertically().width(14%).left(71%)
     }
     
     

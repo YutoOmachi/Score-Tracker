@@ -31,6 +31,7 @@
 		3F510BB02495F847009E4C94 /* FlexColorPicker in Frameworks */ = {isa = PBXBuildFile; productRef = 3F510BAF2495F847009E4C94 /* FlexColorPicker */; };
 		3F510BB22498EBDB009E4C94 /* CustomButtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510BB12498EBDB009E4C94 /* CustomButtom.swift */; };
 		3F510BB42499BDE6009E4C94 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510BB32499BDE6009E4C94 /* FontHelper.swift */; };
+		3FEC239524AEFB6700CE2E18 /* EditGameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEC239424AEFB6700CE2E18 /* EditGameVC.swift */; };
 		D8BCB41FBCD94DBAC13920C7 /* Pods_Score_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		3F510BAC2494DC25009E4C94 /* CreateNewGameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewGameCell.swift; sourceTree = "<group>"; };
 		3F510BB12498EBDB009E4C94 /* CustomButtom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtom.swift; sourceTree = "<group>"; };
 		3F510BB32499BDE6009E4C94 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
+		3FEC239424AEFB6700CE2E18 /* EditGameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGameVC.swift; sourceTree = "<group>"; };
 		7B5C0E62AB72A1F3879A3CF5 /* Pods-Score Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Score Tracker.release.xcconfig"; path = "Target Support Files/Pods-Score Tracker/Pods-Score Tracker.release.xcconfig"; sourceTree = "<group>"; };
 		A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Score_Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D09ABA55C87A3FA2174565A1 /* Pods-Score Tracker.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Score Tracker.debug.xcconfig"; path = "Target Support Files/Pods-Score Tracker/Pods-Score Tracker.debug.xcconfig"; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				3F293D75248A13D600FA77D4 /* GameListScreen.swift */,
 				3F293D79248A22A600FA77D4 /* GameListVC.swift */,
 				3F293D7F248A26CB00FA77D4 /* GameCell.swift */,
+				3FEC239424AEFB6700CE2E18 /* EditGameVC.swift */,
 				3F510BA42494BB3E009E4C94 /* NewGameVC.swift */,
 				3F510BA72494D817009E4C94 /* NewGameVCCell */,
 				3F293D84248A4B1400FA77D4 /* PlayerListVC.swift */,
@@ -309,6 +312,7 @@
 				3F510BAB2494DC08009E4C94 /* NewGameTitleCell.swift in Sources */,
 				3F510BA32490951E009E4C94 /* ChartVC.swift in Sources */,
 				3F510B9D248CBE08009E4C94 /* Game.swift in Sources */,
+				3FEC239524AEFB6700CE2E18 /* EditGameVC.swift in Sources */,
 				3F293D78248A148300FA77D4 /* colorExtension.swift in Sources */,
 				3F510BB42499BDE6009E4C94 /* FontHelper.swift in Sources */,
 				3F42AFC324A079F1007F903C /* HistoryCell.swift in Sources */,

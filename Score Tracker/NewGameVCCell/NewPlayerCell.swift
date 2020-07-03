@@ -65,19 +65,19 @@ class NewPlayerCell: UITableViewCell {
     }
     
     func configureColorButton() {
-        colorButton.height(self.frame.size.height/1.5).centerVertically().width(self.frame.size.height/1.5).left(5%)
-        colorButton.layer.cornerRadius = self.frame.size.height/3
+        colorButton.height(self.frame.size.height/1.2).centerVertically().width(self.frame.size.height/1.2).left(10%)
+        colorButton.layer.cornerRadius = self.frame.size.height/2.4
         colorButton.backgroundColor = color 
     }
     
     func configureNameLabel() {
-        nameLabel.height(20%).top(10%).width(40%).left(20%)
+        nameLabel.height(20%).top(10%).width(40%).left(35%)
         nameLabel.text = "Player Name"
         nameLabel.textColor = UIColor.gray
     }
     
     func configureNameField() {
-        nameField.height(40%).top(40%).width(40%).left(20%)
+        nameField.height(40%).top(40%).width(40%).left(35%)
         nameField.layer.borderWidth = 1
         nameField.layer.borderColor = UIColor.lightGray.cgColor
         nameField.textAlignment = .center
