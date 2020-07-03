@@ -79,7 +79,7 @@ class NewGameVC: UIViewController {
         if notification.name == UIResponder.keyboardWillHideNotification {
             tableView.contentInset = .zero
         } else {
-            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom + 30, right: 0)
+            tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom + 10, right: 0)
         }
 
         tableView.scrollIndicatorInsets = tableView.contentInset

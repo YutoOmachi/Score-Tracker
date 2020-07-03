@@ -17,7 +17,7 @@ class HistoryVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .white
+        view.backgroundColor = .backgroundColor
         
         view.subviews {
             tableView
@@ -41,7 +41,15 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: "history", for: indexPath) as? HistoryCell{
             cell.numCol = game.players.count
-            cell.labels[0].text = "\(indexPath.row+1)"
+            
+            let text = "\(indexPath.row+1)"
+            let attr: [NSAttributedString.Key: Any] = [
+                .font: UIFont.myBoldSystemFont(ofSize: 22),
+                .foregroundColor: UIColor.white
+            ]
+            let attributedString = NSAttributedString(string: text, attributes: attr)
+            cell.labels[0].attributedText = attributedString
+            
             for (i, label) in cell.labels.enumerated() {
                 if i != 0 {
                     if indexPath.row == 0 {
@@ -77,13 +85,15 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
             label.layer.borderWidth = 0.5
             label.adjustsFontSizeToFitWidth = true
             label.numberOfLines = 0
-            
+            label.backgroundColor = UIColor.whiteGray
             if i != 0 {
-                label.text = game.players[i-1].name
-                label.backgroundColor = .cellColor
-            }
-            else {
-                label.backgroundColor = .backgroundColor
+                let text = game.players[i-1].name
+                let attr: [NSAttributedString.Key: Any] = [
+                    .font: UIFont.myBoldSystemFont(ofSize: 22),
+                    .foregroundColor: UIColor.white
+                ]
+                let attributedString = NSAttributedString(string: text, attributes: attr)
+                label.attributedText = attributedString
             }
         }
         return view
@@ -114,8 +124,6 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
         var playersArray = [Player]()
         //Delete the designated round score and Update all the scores
         for i in 0..<game.players.count {
-//            print("points(before): \(game.players[i].pastPoints)")
-//            print("ranks(before): \(game.players[i].pastRanks)")
             playersArray.append(game.players[i])
             
             //If deleting first round
@@ -125,7 +133,6 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
                 }
                 else {
                     let score =  game.players[i].pastPoints[0]
-//                    print("Deleted Score: \(score)")
                     game.players[i].pastPoints.remove(at: 0)
                     for j in 0..<game.players[i].pastPoints.count {
                         game.players[i].pastPoints[j] -= score
@@ -144,8 +151,6 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
             
             let lastIndex = game.players[i].pastRanks.count
             game.players[i].pastRanks.remove(at: lastIndex - 1)
-//            print("points(after): \(game.players[i].pastPoints)")
-//            print("ranks(after): \(game.players[i].pastRanks)")
         }
                 
         //Update all the ranks

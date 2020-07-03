@@ -53,7 +53,7 @@ class HistoryCell: UITableViewCell {
             label.layer.borderWidth = 0.5
             
             if label.tag == 10 {
-                label.backgroundColor = .cellColor
+                label.backgroundColor = UIColor.whiteGray.withAlphaComponent(0.8)
             }
         }
     }

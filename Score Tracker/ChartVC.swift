@@ -74,6 +74,8 @@ class ChartVC: UIViewController{
         xAxis.granularityEnabled = true
         xAxis.granularity = 2
         
+        chartView.animate(xAxisDuration: 1)
+        
         return chartView
     }()
     
@@ -101,25 +103,22 @@ class ChartVC: UIViewController{
     }
     
     func setNavController() {
-        let saveButton = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveChartTapped))
+        let saveButton = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(shareChartTapped))
         navigationItem.rightBarButtonItem = saveButton
     }
     
-    @objc func saveChartTapped(_ sender: UIBarButtonItem) {
-        guard let chartImage: UIImage = lineChartView.getChartImage(transparent: false) else { savingFailed(); return }
-        UIImageWriteToSavedPhotosAlbum(chartImage, nil, nil, nil)
-        savingSucceded()
+    @objc func shareChartTapped(_ sender: UIBarButtonItem) {
+        guard let chartImage: UIImage = lineChartView.getChartImage(transparent: false) else { sharingFailed(); return }
+        
+        let activityViewController = UIActivityViewController(activityItems: [chartImage], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        present(activityViewController, animated: true)
     }
     
-    func savingFailed() {
-        let ac = UIAlertController(title: "Failed", message: "Something went wrong! Unable to save the chart", preferredStyle: .alert)
+    func sharingFailed() {
+        let ac = UIAlertController(title: "Failed", message: "Something went wrong! Unable to share the chart", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-        present(ac, animated: true)
-    }
-    
-    func savingSucceded() {
-        let ac = UIAlertController(title: "Successfull", message: "Chart saved to your photo album!", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(ac, animated: true)
     }
     
@@ -131,6 +130,7 @@ class ChartVC: UIViewController{
             visibleGame = .all
         }
         setData()
+        
     }
     
     @objc func handleDataTypeControlChange(_ sender: UISegmentedControl) {
@@ -209,17 +209,10 @@ class ChartVC: UIViewController{
         }
         lineChartView.moveViewToX(Double(players[0].pastPoints.count))
     }
-
 }
-
-
-
 
 extension ChartVC: ChartViewDelegate {
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
         print(entry)
     }
-    
-
-
 }

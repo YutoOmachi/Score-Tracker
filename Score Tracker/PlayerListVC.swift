@@ -55,6 +55,7 @@ class PlayerListVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setNotification()
         tableView.reloadData()
+        gameDataDelegate.didGameUpdated(game: game)
     }
 
     @objc func keyboardWillChange(_ notification: Notification) {
@@ -88,6 +89,12 @@ class PlayerListVC: UIViewController {
     }
 
     @objc func chartTapped() {
+        if game.players[0].pastRanks.isEmpty {
+            let ac = UIAlertController(title: "No Score Recorded", message: "You need at least have one round of scores to view the chart", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(ac, animated: true)
+            return
+        }
         let chartVC = ChartVC()
         chartVC.players = game.players
         navigationController?.pushViewController(chartVC, animated: true)
@@ -101,7 +108,7 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
-            return 2
+            return 1
         }
         return game?.players.count ?? 0
     }
@@ -158,24 +165,9 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         if  indexPath.section == 1 {
             if let cell = tableView.dequeueReusableCell(withIdentifier: "UpdateCell", for: indexPath) as? UpdateCell {
                 cell.selectionStyle = .none
-                var text: String?
-                if indexPath.row == 0 {
-                    text = "Update"
-                    cell.updateButton.addTarget(self, action: #selector(updateTapped), for: .touchUpInside)
-                    cell.updateButton.backgroundColor = UIColor.cellColor
-                }
-                else if indexPath.row == 1 {
-                    cell.updateButton.addTarget(self, action: #selector(historyTapped), for: .touchUpInside)
-                    text = "History"
-                    cell.updateButton.backgroundColor = .gray
-                }
+                cell.updateButton.addTarget(self, action: #selector(updateTapped), for: .touchUpInside)
+                cell.historyButton.addTarget(self, action: #selector(historyTapped), for: .touchUpInside)
                 
-                let attr: [NSAttributedString.Key : Any] = [
-                    .foregroundColor: UIColor.white,
-                    .font: UIFont.myBoldSystemFont(ofSize: 22)
-                ]
-                let attrString = NSAttributedString(string: text ?? "", attributes: attr)
-                cell.updateButton.setAttributedTitle(attrString, for: .normal)
                 return cell
             }
         }
