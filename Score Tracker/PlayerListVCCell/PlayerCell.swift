@@ -31,7 +31,7 @@ class PlayerCell: UITableViewCell {
             minusButton
             pointField
         }
-
+        
         configurePlayerNameLabel()
         configureStarLabel()
         configureTotalPointsLabel()
@@ -44,10 +44,26 @@ class PlayerCell: UITableViewCell {
         fatalError("init(code) is not implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 15, left: 10, bottom: 5, right: 10))
+
+    }
+    
     func configureCell() {
-//        self.layer.borderWidth = 1
-//        self.layer.borderColor = UIColor.cellColor.cgColor
-        self.backgroundColor = .backgroundColor
+        backgroundColor = .clear // very important
+        layer.masksToBounds = false
+        layer.shadowOffset  = CGSize(width: 0.0, height: 3.0)
+        layer.shadowRadius  = 2
+        layer.shadowOpacity = 0.2
+        clipsToBounds       = false
+        layer.shadowColor = UIColor.black.cgColor
+        
+        // add corner radius on `contentView`
+        let size = layer.frame.size
+        contentView.backgroundColor = .white
+        contentView.layer.cornerRadius = size.width*0.1
     }
     
     func configurePlayerNameLabel()  {

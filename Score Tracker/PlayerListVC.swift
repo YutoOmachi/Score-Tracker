@@ -27,6 +27,7 @@ class PlayerListVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         title = game?.title
         view.subviews {
             tableView

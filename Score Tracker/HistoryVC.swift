@@ -88,9 +88,12 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
             label.backgroundColor = UIColor.whiteGray
             if i != 0 {
                 let text = game.players[i-1].name
+                let color = game.players[i-1].color
                 let attr: [NSAttributedString.Key: Any] = [
                     .font: UIFont.myBoldSystemFont(ofSize: 22),
-                    .foregroundColor: UIColor.white
+                    .foregroundColor:  UIColor(red: color[0], green: color[1], blue: color[2], alpha: color[3]),
+                    .strokeColor: UIColor.white,
+                    .strokeWidth: -1
                 ]
                 let attributedString = NSAttributedString(string: text, attributes: attr)
                 label.attributedText = attributedString

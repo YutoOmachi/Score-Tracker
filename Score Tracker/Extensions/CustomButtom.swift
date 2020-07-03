@@ -52,8 +52,6 @@ class LargeButton: UIButton {
         titleLabel?.font = UIFont(name: "Future-Medium", size: 24)
         titleLabel?.textColor = UIColor.white
         layer.backgroundColor = UIColor.cellColor.cgColor
-//        layer.borderWidth    = 3.0
-//        layer.borderColor    = UIColor.darkGray.cgColor
         setShadow()
     }
     

@@ -16,7 +16,7 @@ class NewGameVC: UIViewController {
     var gameDataDelegate: GameDataDelegate?
     
     var tableView = UITableView()
-    var selectedButton: UIButton?
+    var selectedCell: NewPlayerCell?
     var colorPickerController: DefaultColorPickerViewController!
     var colorNavController: UINavigationController!
     
@@ -25,6 +25,8 @@ class NewGameVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+
         setNavController()
         
         view.subviews {
@@ -142,27 +144,28 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case 1:
+            
             if let cell = tableView.dequeueReusableCell(withIdentifier: "player", for: indexPath) as? NewPlayerCell {
                 cell.nameField.placeholder = "Player\(indexPath.row+1)"
-                var color: UIColor
-                switch indexPath.row%6 {
-                case 0:
-                    color = .cyan
-                case 1:
-                    color = .navigationColor
-                case 2:
-                    color = .magenta
-                case 3:
-                    color = .cellColor
-                case 4:
-                    color = .lightGray
-                case 5:
-                    color = .brown
-                default:
-                    color = .red
+                if cell.color == nil {
+                    switch indexPath.row%6 {
+                    case 0:
+                        cell.color = .cyan
+                    case 1:
+                        cell.color = .navigationColor
+                    case 2:
+                        cell.color = .magenta
+                    case 3:
+                        cell.color = .cellColor
+                    case 4:
+                        cell.color = .lightGray
+                    case 5:
+                        cell.color = .brown
+                    default:
+                        cell.color = .red
+                    }
                 }
                 
-                cell.colorButton.backgroundColor = color
                 cell.colorButton.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
                 return cell
             }
@@ -217,7 +220,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func colorButtonTapped(_ sender: UIButton) {
-        selectedButton = sender
+        selectedCell = sender.superview?.superview as? NewPlayerCell
         colorPickerController = DefaultColorPickerViewController()
         colorPickerController.delegate = self
         colorNavController = UINavigationController(rootViewController: colorPickerController)
@@ -233,7 +236,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
 
     @objc func selectTapped(sender: UIBarButtonItem) {
         colorNavController.dismiss(animated: true, completion: nil)
-        selectedButton?.backgroundColor = colorPickerController.selectedColor
+        selectedCell?.color = colorPickerController.selectedColor
     }
     
     @objc func cancelTapped(sender: UIBarButtonItem) {

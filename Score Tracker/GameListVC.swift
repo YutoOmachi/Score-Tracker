@@ -98,8 +98,15 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
             [weak self] (action, view, nil) in
             self?.deleteTapped(indexPath: indexPath)
         }
+        let edit = UIContextualAction(style: .normal, title: "Edit"){
+            [weak self] (action, view, nil) in
+            // Edit action to be implemented
+            
+            
+            
+        }
         delete.image = UIImage(systemName: "trash")
-        let config = UISwipeActionsConfiguration(actions: [delete])
+        let config = UISwipeActionsConfiguration(actions: [edit,delete])
         config.performsFirstActionWithFullSwipe = false
         return config
     }
