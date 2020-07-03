@@ -130,7 +130,6 @@ class ChartVC: UIViewController{
             visibleGame = .all
         }
         setData()
-        
     }
     
     @objc func handleDataTypeControlChange(_ sender: UISegmentedControl) {
@@ -208,6 +207,7 @@ class ChartVC: UIViewController{
             lineChartView.setVisibleXRange(minXRange: 0, maxXRange: 10)
         }
         lineChartView.moveViewToX(Double(players[0].pastPoints.count))
+        lineChartView.animate(xAxisDuration: 1)
     }
 }
 
