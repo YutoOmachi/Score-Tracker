@@ -36,8 +36,6 @@ class NewGameVC: UIViewController {
 
         configureTableView()
         setNotification()
-        
-        print(tableView.footerView(forSection: 0)?.frame.size)
     }
     
     func setNavController() {
@@ -157,7 +155,6 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         case 1:
-            
             if let cell = tableView.dequeueReusableCell(withIdentifier: "player", for: indexPath) as? NewPlayerCell {
                 cell.nameField.placeholder = "Player\(indexPath.row+1)"
                 if cell.color == nil {
@@ -185,6 +182,13 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         default:
             if let cell = tableView.dequeueReusableCell(withIdentifier: "newGame", for: indexPath) as? CreateNewGameCell {
                 cell.createNewGameButton.layer.cornerRadius = tableView.rowHeight*0.4
+                let text = "Start Game"
+                let attr: [NSAttributedString.Key : Any] = [
+                    .foregroundColor: UIColor.white,
+                    .font: UIFont.myBoldSystemFont(ofSize: 22)
+                ]
+                let attrString = NSAttributedString(string: text, attributes: attr)
+                cell.createNewGameButton.setAttributedTitle(attrString, for: .normal)
                 cell.createNewGameButton.addTarget(self, action: #selector(createNewGameTapped), for: .touchUpInside)
                 return cell
             }
@@ -208,8 +212,10 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
             game = Game(title: "New Game", firstCreated: Date())
         }
         
-        for i in 0..<numPlayers {
+        for i in 0..<tableView.numberOfRows(inSection: 1) {
+            print(i+10)
             let cell = tableView.cellForRow(at: IndexPath(row: i, section: 1)) as? NewPlayerCell
+            print(tableView.numberOfRows(inSection: 1))
             if let name = cell?.nameField.text, let color = cell?.colorButton.backgroundColor?.rgba {
                 if name == "" {
                     game.players.append(Player(name: "Player\(i+1)", color: color))
@@ -219,7 +225,6 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         }
-        
         gameDataDelegate?.addNewGame(game: game)
         
         let VC = PlayerListVC()

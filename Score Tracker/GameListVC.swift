@@ -101,12 +101,13 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
         let edit = UIContextualAction(style: .normal, title: "Edit"){
             [weak self] (action, view, nil) in
             // Edit action to be implemented
-            
-            
-            
+            let newVC = EditGameVC()
+            newVC.selectedGame = self?.games[indexPath.row]
+            self?.navigationController?.pushViewController(newVC, animated: true)
         }
+        
         delete.image = UIImage(systemName: "trash")
-        let config = UISwipeActionsConfiguration(actions: [edit,delete])
+        let config = UISwipeActionsConfiguration(actions: [delete, edit])
         config.performsFirstActionWithFullSwipe = false
         return config
     }
