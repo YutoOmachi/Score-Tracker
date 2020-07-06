@@ -16,12 +16,13 @@ class NewGameVC: UIViewController {
     var gameDataDelegate: GameDataDelegate?
     
     var tableView = UITableView()
-    var selectedCell: NewPlayerCell?
+    var selectedRow: Int?
     var colorPickerController: DefaultColorPickerViewController!
     var colorNavController: UINavigationController!
+
     
-    var numPlayers = 2
-    
+    var newGame = Game(title: "", firstCreated: Date())
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,6 +36,7 @@ class NewGameVC: UIViewController {
         tableView.height(100%).width(100%).top(0).left(0)
 
         configureTableView()
+        initNewGame()
         setNotification()
     }
     
@@ -71,6 +73,11 @@ class NewGameVC: UIViewController {
         tableView.dataSource = self
     }
     
+    func initNewGame() {
+        newGame.players.append(Player(name: "", color: UIColor.cyan.rgba))
+        newGame.players.append(Player(name: "", color: UIColor.navigationColor.rgba))
+    }
+    
     @objc func keyboardWillChange(_ notification: Notification) {
 
         guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
@@ -89,12 +96,17 @@ class NewGameVC: UIViewController {
 }
 
 extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
+    
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             return 1
         case 1:
-            return numPlayers
+            return newGame.players.count
         default:
             return 1
         }
@@ -102,6 +114,122 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        switch indexPath.section {
+        case 0:
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as? NewGameTitleCell {
+                cell.titleField.addTarget(self, action: #selector(self.titleFieldDidChange(_:)), for: .editingDidEnd)
+                return cell
+            }
+        case 1:
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "player", for: indexPath) as? NewPlayerCell {
+                cell.nameField.placeholder = "Player\(indexPath.row+1)"
+                cell.tag = indexPath.row
+                let player = newGame.players[indexPath.row]
+                let playerColor = UIColor(red: player.color[0], green: player.color[1], blue: player.color[2], alpha: player.color[3])
+                cell.colorButton.backgroundColor = playerColor
+                cell.colorButton.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
+                cell.nameField.addTarget(self, action: #selector(nameFieldDidChange(_:)), for: .editingDidEnd)
+                return cell
+            }
+        default:
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "newGame", for: indexPath) as? CreateNewGameCell {
+                cell.createNewGameButton.layer.cornerRadius = tableView.rowHeight*0.4
+                let text = "Start Game"
+                let attr: [NSAttributedString.Key : Any] = [
+                    .foregroundColor: UIColor.white,
+                    .font: UIFont.myBoldSystemFont(ofSize: 22)
+                ]
+                let attrString = NSAttributedString(string: text, attributes: attr)
+                cell.createNewGameButton.setAttributedTitle(attrString, for: .normal)
+                cell.createNewGameButton.addTarget(self, action: #selector(createNewGameTapped), for: .touchUpInside)
+                return cell
+            }
+        }
+        
+        return UITableViewCell()
+    }
+    
+    @objc func titleFieldDidChange(_ textField: UITextField) {
+        newGame.title = textField.text ?? ""
+    }
+    
+    @objc func createNewGameTapped() {
+        if newGame.title == "" {
+            newGame.title = "New Game"
+        }
+        for (i, player) in newGame.players.enumerated() {
+            if player.name == "" {
+                player.name = "Player\(i+1)"
+            }
+        }
+        
+        gameDataDelegate?.addNewGame(game: newGame)
+        
+        let VC = PlayerListVC()
+        VC.game = newGame
+        VC.gameDataDelegate = self.gameDataDelegate
+        navigationController?.pushViewController(VC, animated: true)
+        guard let navigationController = self.navigationController else { return }
+        var navigationArray = navigationController.viewControllers
+        navigationArray.remove(at: navigationArray.count - 2)
+        self.navigationController?.viewControllers = navigationArray
+    }
+    
+    @objc func colorButtonTapped(_ sender: UIButton) {
+        selectedRow = sender.superview?.superview?.tag
+        colorPickerController = DefaultColorPickerViewController()
+        colorPickerController.delegate = self
+        colorNavController = UINavigationController(rootViewController: colorPickerController)
+        
+        let selectButton = UIBarButtonItem(title: "Select", style: .done, target: self, action: #selector(selectTapped(sender:)))
+        let cancelButton = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelTapped(sender:)))
+        colorPickerController.navigationItem.rightBarButtonItem = selectButton
+        colorPickerController.navigationItem.leftBarButtonItem = cancelButton
+        colorPickerController.navigationItem.leftBarButtonItem?.tintColor = .red
+
+        present(colorNavController, animated: true, completion: nil)
+    }
+
+    @objc func selectTapped(sender: UIBarButtonItem) {
+        colorNavController.dismiss(animated: true, completion: nil)
+        newGame.players[selectedRow ?? -1].color = colorPickerController.selectedColor.rgba
+    }
+    
+    @objc func cancelTapped(sender: UIBarButtonItem) {
+        colorNavController.dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func addPlayerTapped() {
+        var color: UIColor
+        switch newGame.players.count {
+            case 0:
+                color = .cyan
+            case 1:
+                color = .navigationColor
+            case 2:
+                color = .magenta
+            case 3:
+                color = .cellColor
+            case 4:
+                color = .lightGray
+            case 5:
+                color = .brown
+            default:
+                color = .red
+        }
+        newGame.players.append(Player(name: "", color: color.rgba))
+        tableView.reloadData()
+    }
+    
+    @objc func nameFieldDidChange(_ nameField: UITextField) {
+        guard let cell = nameField.superview?.superview as? UITableViewCell else {
+            return
+        }
+        newGame.players[cell.tag].name = nameField.text ?? ""
+        tableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -146,125 +274,6 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
             return tableView.rowHeight/2
         }
         return tableView.rowHeight/3
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case 0:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as? NewGameTitleCell {
-                return cell
-            }
-        case 1:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "player", for: indexPath) as? NewPlayerCell {
-                cell.nameField.placeholder = "Player\(indexPath.row+1)"
-                if cell.color == nil {
-                    switch indexPath.row%6 {
-                    case 0:
-                        cell.color = .cyan
-                    case 1:
-                        cell.color = .navigationColor
-                    case 2:
-                        cell.color = .magenta
-                    case 3:
-                        cell.color = .cellColor
-                    case 4:
-                        cell.color = .lightGray
-                    case 5:
-                        cell.color = .brown
-                    default:
-                        cell.color = .red
-                    }
-                }
-                
-                cell.colorButton.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
-                return cell
-            }
-        default:
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "newGame", for: indexPath) as? CreateNewGameCell {
-                cell.createNewGameButton.layer.cornerRadius = tableView.rowHeight*0.4
-                let text = "Start Game"
-                let attr: [NSAttributedString.Key : Any] = [
-                    .foregroundColor: UIColor.white,
-                    .font: UIFont.myBoldSystemFont(ofSize: 22)
-                ]
-                let attrString = NSAttributedString(string: text, attributes: attr)
-                cell.createNewGameButton.setAttributedTitle(attrString, for: .normal)
-                cell.createNewGameButton.addTarget(self, action: #selector(createNewGameTapped), for: .touchUpInside)
-                return cell
-            }
-        }
-        
-        return UITableViewCell()
-    }
-    
-    @objc func createNewGameTapped() {
-        let titleCell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? NewGameTitleCell
-        var game: Game
-        if let title = titleCell?.titleField.text {
-            if title == "" {
-                game = Game(title: "New Game", firstCreated: Date())
-            }
-            else {
-                game = Game(title: title, firstCreated: Date())
-            }
-        }
-        else {
-            game = Game(title: "New Game", firstCreated: Date())
-        }
-        
-        for i in 0..<tableView.numberOfRows(inSection: 1) {
-            print(i+10)
-            let cell = tableView.cellForRow(at: IndexPath(row: i, section: 1)) as? NewPlayerCell
-            print(tableView.numberOfRows(inSection: 1))
-            if let name = cell?.nameField.text, let color = cell?.colorButton.backgroundColor?.rgba {
-                if name == "" {
-                    game.players.append(Player(name: "Player\(i+1)", color: color))
-                }
-                else {
-                    game.players.append(Player(name: name, color: color))
-                }
-            }
-        }
-        gameDataDelegate?.addNewGame(game: game)
-        
-        let VC = PlayerListVC()
-        VC.game = game
-        VC.gameDataDelegate = self.gameDataDelegate
-        navigationController?.pushViewController(VC, animated: true)
-        guard let navigationController = self.navigationController else { return }
-        var navigationArray = navigationController.viewControllers
-        navigationArray.remove(at: navigationArray.count - 2)
-        self.navigationController?.viewControllers = navigationArray
-    }
-    
-    @objc func colorButtonTapped(_ sender: UIButton) {
-
-        selectedCell = sender.superview?.superview as? NewPlayerCell
-        colorPickerController = DefaultColorPickerViewController()
-        colorPickerController.delegate = self
-        colorNavController = UINavigationController(rootViewController: colorPickerController)
-        
-        let selectButton = UIBarButtonItem(title: "Select", style: .done, target: self, action: #selector(selectTapped(sender:)))
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(cancelTapped(sender:)))
-        colorPickerController.navigationItem.rightBarButtonItem = selectButton
-        colorPickerController.navigationItem.leftBarButtonItem = cancelButton
-        colorPickerController.navigationItem.leftBarButtonItem?.tintColor = .red
-
-        present(colorNavController, animated: true, completion: nil)
-    }
-
-    @objc func selectTapped(sender: UIBarButtonItem) {
-        colorNavController.dismiss(animated: true, completion: nil)
-        selectedCell?.color = colorPickerController.selectedColor
-    }
-    
-    @objc func cancelTapped(sender: UIBarButtonItem) {
-        colorNavController.dismiss(animated: true, completion: nil)
-    }
-    
-    @objc func addPlayerTapped() {
-        numPlayers+=1
-        tableView.reloadData()
     }
 
 }
