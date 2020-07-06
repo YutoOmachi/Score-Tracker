@@ -19,7 +19,8 @@ class EditGameVC: UIViewController {
     var colorPickerController: DefaultColorPickerViewController!
     var colorNavController: UINavigationController!
     
-    var selectedGame: Game?
+    var selectedGame: Game!
+    var selectedRow: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,8 +98,8 @@ extension EditGameVC: UITableViewDelegate, UITableViewDataSource {
         return 3
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if section == 0 {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 1 {
             let footerView = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.rowHeight/2))
             footerView.backgroundColor = UIColor.cellColor
             
@@ -115,7 +116,7 @@ extension EditGameVC: UITableViewDelegate, UITableViewDataSource {
             label.attributedText = NSAttributedString(string: text, attributes: attr)
             return footerView
         }
-        else if section == 1 {
+        else if section == 2 {
             return UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.rowHeight/2))
         }
         
@@ -124,6 +125,9 @@ extension EditGameVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 0 {
+            return 0
+        }
+        if section == 1 {
             return tableView.rowHeight/2
         }
         return tableView.rowHeight/3
@@ -134,16 +138,18 @@ extension EditGameVC: UITableViewDelegate, UITableViewDataSource {
         case 0:
             if let cell = tableView.dequeueReusableCell(withIdentifier: "title", for: indexPath) as? NewGameTitleCell {
                 cell.titleField.text = selectedGame?.title
+                cell.titleField.addTarget(self, action: #selector(titleFieldDidChange(_:)), for: .editingDidEnd)
                 return cell
             }
         case 1:
-            
             if let cell = tableView.dequeueReusableCell(withIdentifier: "player", for: indexPath) as? NewPlayerCell {
                 cell.nameField.text = selectedGame?.players[indexPath.row].name
-                let playerColor = selectedGame?.players[indexPath.row].color ?? [0,0,0,0]
-                let color  = UIColor(red: (playerColor[0]), green: (playerColor[1]), blue: playerColor[2], alpha: playerColor[3])
-                cell.colorButton.backgroundColor = color
+                cell.tag = indexPath.row
+                let player = selectedGame.players[indexPath.row]
+                let playerColor = UIColor(red: player.color[0], green: player.color[1], blue: player.color[2], alpha: player.color[3])
+                cell.colorButton.backgroundColor = playerColor
                 cell.colorButton.addTarget(self, action: #selector(colorButtonTapped), for: .touchUpInside)
+                cell.nameField.addTarget(self, action: #selector(nameFieldDidChange(_:)), for: .editingDidEnd)
                 return cell
             }
             
@@ -161,19 +167,20 @@ extension EditGameVC: UITableViewDelegate, UITableViewDataSource {
                 return cell
             }
         }
-        
         return UITableViewCell()
     }
     
+    @objc func titleFieldDidChange(_ textField: UITextField) {
+        selectedGame.title = textField.text ?? ""
+    }
+    
     @objc func editTapped() {
+        gameDataDelegate?.didGameUpdated(game: selectedGame!)
         navigationController?.popToRootViewController(animated: true)
     }
     
     @objc func colorButtonTapped(_ sender: UIButton) {
-
-        
-        
-        selectedCell = sender.superview?.superview as? NewPlayerCell
+        selectedRow = sender.superview?.superview?.tag
         colorPickerController = DefaultColorPickerViewController()
         colorPickerController.delegate = self
         colorNavController = UINavigationController(rootViewController: colorPickerController)
@@ -189,12 +196,22 @@ extension EditGameVC: UITableViewDelegate, UITableViewDataSource {
     
     @objc func selectTapped(sender: UIBarButtonItem) {
         colorNavController.dismiss(animated: true, completion: nil)
-        selectedCell?.color = colorPickerController.selectedColor
+        selectedGame.players[selectedRow ?? -1].color = colorPickerController.selectedColor.rgba
+        tableView.reloadData()
     }
     
     @objc func cancelTapped(sender: UIBarButtonItem) {
         colorNavController.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func nameFieldDidChange(_ nameField: UITextField) {
+        guard let cell = nameField.superview?.superview as? UITableViewCell else {
+            return
+        }
+        selectedGame.players[cell.tag].name = nameField.text ?? ""
+        tableView.reloadData()
+    }
+    
 }
 
 extension EditGameVC: ColorPickerDelegate {

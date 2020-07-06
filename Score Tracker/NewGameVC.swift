@@ -96,11 +96,6 @@ class NewGameVC: UIViewController {
 }
 
 extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-    }
-    
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -125,7 +120,11 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
             }
         case 1:
             if let cell = tableView.dequeueReusableCell(withIdentifier: "player", for: indexPath) as? NewPlayerCell {
-                cell.nameField.placeholder = "Player\(indexPath.row+1)"
+                if newGame.players[indexPath.row].name == "" {
+                    cell.nameField.placeholder = "Player\(indexPath.row+1)"
+                }
+                cell.nameField.text = newGame.players[indexPath.row].name
+                
                 cell.tag = indexPath.row
                 let player = newGame.players[indexPath.row]
                 let playerColor = UIColor(red: player.color[0], green: player.color[1], blue: player.color[2], alpha: player.color[3])
@@ -196,6 +195,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
     @objc func selectTapped(sender: UIBarButtonItem) {
         colorNavController.dismiss(animated: true, completion: nil)
         newGame.players[selectedRow ?? -1].color = colorPickerController.selectedColor.rgba
+        tableView.reloadData()
     }
     
     @objc func cancelTapped(sender: UIBarButtonItem) {
@@ -232,8 +232,8 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         tableView.reloadData()
     }
     
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        if section == 0 {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if section == 1 {
             let footerView = UIView.init(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.rowHeight/2))
             footerView.backgroundColor = UIColor.cellColor
             
@@ -262,7 +262,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
             
             return footerView
         }
-        else if section == 1 {
+        else if section == 2 {
             return UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: tableView.rowHeight/2))
         }
         
@@ -271,11 +271,37 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         if section == 0 {
+            return 0
+        }
+        if section == 1 {
             return tableView.rowHeight/2
         }
         return tableView.rowHeight/3
     }
 
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.section == 1 {
+            let delete = UIContextualAction(style: .destructive, title: "Delete"){
+                [weak self] (action, view, nil) in
+                self?.deleteTapped(indexPath: indexPath)
+            }
+            delete.image = UIImage(systemName: "trash")
+            let config = UISwipeActionsConfiguration(actions: [delete])
+            config.performsFirstActionWithFullSwipe = true
+            return config
+        }
+        return nil
+    }
+
+    func deleteTapped(indexPath: IndexPath) {
+        newGame.players.remove(at: indexPath.row)
+        print(newGame.players.count)
+        for i in 0..<newGame.players.count {
+            print("\(i): \(newGame.players[i].name)")
+        }
+
+        tableView.reloadData()
+    }
 }
 
 extension NewGameVC: ColorPickerDelegate {
