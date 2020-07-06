@@ -9,7 +9,7 @@
 import UIKit
 
 
-class Player: NSObject, Codable {
+class Player: NSObject, Codable, NSCopying {
     var name: String
     var pastRanks = [Int]()
     var pastPoints = [Int]()
@@ -18,5 +18,12 @@ class Player: NSObject, Codable {
     init(name: String, color: [CGFloat]) {
         self.name = name
         self.color = color
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = Player(name: name, color: color)
+        copy.pastRanks = pastRanks
+        copy.pastPoints = pastPoints
+        return copy
     }
 }

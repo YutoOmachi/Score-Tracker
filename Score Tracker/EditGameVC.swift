@@ -34,7 +34,7 @@ class EditGameVC: UIViewController {
         setTableViewDelegates()
         
         setNavController()
-        setNotification()
+        setNotification()        
     }
     
     func configureTableView() {
@@ -175,6 +175,7 @@ extension EditGameVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func editTapped() {
+        
         gameDataDelegate?.didGameUpdated(game: selectedGame!)
         navigationController?.popToRootViewController(animated: true)
     }

@@ -9,15 +9,8 @@
 import UIKit
 import Stevia
 
-protocol GameDataDelegate {
-    func didGameUpdated(game: Game)
-    func addNewGame(game: Game)
-}
-
 class PlayerListVC: UIViewController {
-    
-    var gameDataDelegate: GameDataDelegate!
-    
+        
     var game: Game!
     
     let tableView = UITableView()
@@ -56,7 +49,7 @@ class PlayerListVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setNotification()
         tableView.reloadData()
-        gameDataDelegate.didGameUpdated(game: game)
+        game.updateLastEditted()
     }
 
     @objc func keyboardWillChange(_ notification: Notification) {
@@ -261,7 +254,6 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             player.pastRanks.append(i+1)
         }
         game.updateLastEditted()
-        gameDataDelegate.didGameUpdated(game: game)
         tableView.reloadData()
     }
 }

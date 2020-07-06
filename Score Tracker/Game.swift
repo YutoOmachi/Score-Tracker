@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Game: NSObject, Codable {
+class Game: NSObject, Codable, NSCopying {
     var title: String
     var players = [Player]()
     var firstCreated: Date
@@ -18,6 +18,15 @@ class Game: NSObject, Codable {
         self.title = title
         self.firstCreated = firstCreated
         self.lastEditted = Date()
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let copy = Game(title: title, firstCreated: firstCreated)
+        for i in 0..<players.count {
+            copy.players.append(players[i].copy() as! Player)
+        }
+        copy.lastEditted = lastEditted
+        return copy
     }
     
     private func formatDate(date: Date) -> String {

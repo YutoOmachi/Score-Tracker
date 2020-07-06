@@ -83,7 +83,6 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let VC = PlayerListVC()
-        VC.gameDataDelegate = self
         let selectedGame = games[indexPath.row]
         selectedGame.updateLastEditted()
         VC.game = selectedGame
@@ -102,8 +101,13 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
             [weak self] (action, view, nil) in
             // Edit action to be implemented
             let newVC = EditGameVC()
-            newVC.selectedGame = self?.games[indexPath.row]
+            let selectedGame = self?.games[indexPath.row]
+            newVC.selectedGame = selectedGame?.copy() as? Game
+            newVC.gameDataDelegate = self
+            self?.games.remove(at: indexPath.row)
+            self?.games.insert(selectedGame!, at: 0)
             self?.navigationController?.pushViewController(newVC, animated: true)
+            self?.tableView.reloadData()
         }
         
         delete.image = UIImage(systemName: "trash")
@@ -145,9 +149,11 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
 
 extension GameListVC: GameDataDelegate {
     func didGameUpdated(game: Game) {
-        games[0] = game
+        self.games[0] = game
         save()
         self.tableView.reloadData()
+        print(game.players[0].name)
+        print("updated:")
     }
     
     func addNewGame(game: Game) {

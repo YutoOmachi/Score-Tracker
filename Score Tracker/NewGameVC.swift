@@ -11,6 +11,11 @@ import Stevia
 import FlexColorPicker
 
 
+protocol GameDataDelegate {
+    func didGameUpdated(game: Game)
+    func addNewGame(game: Game)
+}
+
 class NewGameVC: UIViewController {
     
     var gameDataDelegate: GameDataDelegate?
@@ -169,7 +174,6 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         
         let VC = PlayerListVC()
         VC.game = newGame
-        VC.gameDataDelegate = self.gameDataDelegate
         navigationController?.pushViewController(VC, animated: true)
         guard let navigationController = self.navigationController else { return }
         var navigationArray = navigationController.viewControllers
