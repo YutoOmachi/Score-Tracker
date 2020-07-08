@@ -12,7 +12,22 @@ import Stevia
 class GameListVC: UIViewController {
 
     let tableView = UITableView()
-    var games = [Game]()
+    var games = [Game]() {
+        didSet {
+            if games.count == 0 {
+                tableView.separatorStyle = .none
+                let imageView = UIImageView(image: UIImage(named: "Empty_Background"))
+                imageView.backgroundColor = .backgroundColor
+                imageView.contentMode = .scaleAspectFit
+                imageView.backgroundColor = .white
+                tableView.backgroundView = imageView
+            }
+            else {
+                tableView.separatorStyle = .singleLine
+                tableView.backgroundView = nil
+            }
+        }
+    }
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -152,8 +167,6 @@ extension GameListVC: GameDataDelegate {
         self.games[0] = game
         save()
         self.tableView.reloadData()
-        print(game.players[0].name)
-        print("updated:")
     }
     
     func addNewGame(game: Game) {
