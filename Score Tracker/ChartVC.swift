@@ -30,7 +30,7 @@ class ChartVC: UIViewController{
     var visibleGame = Visible.all
     
     let visibleGameControl: UISegmentedControl = {
-        let sc = UISegmentedControl(items: ["Overview", "Zoom to 10"])
+        let sc = UISegmentedControl(items: ["Overview", "Last 10"])
         sc.translatesAutoresizingMaskIntoConstraints = false
         sc.tintColor = UIColor.white
         sc.selectedSegmentIndex = 0
@@ -103,7 +103,8 @@ class ChartVC: UIViewController{
     }
     
     func setNavController() {
-        let saveButton = UIBarButtonItem(title: "Share", style: .plain, target: self, action: #selector(shareChartTapped))
+        let image = UIImage(systemName: "square.and.arrow.up")
+        let saveButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(shareChartTapped))
         navigationItem.rightBarButtonItem = saveButton
     }
     
@@ -164,7 +165,6 @@ class ChartVC: UIViewController{
         }
         else {
             selectedData = rankData
-
         }
         
         for (i, data) in selectedData.enumerated() {

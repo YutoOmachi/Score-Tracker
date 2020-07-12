@@ -11,13 +11,16 @@ import Stevia
 
 class GameListVC: UIViewController {
 
+    
     let tableView = UITableView()
+    
+    let helpVC = HelpVC()
+
     var games = [Game]() {
         didSet {
             if games.count == 0 {
                 tableView.separatorStyle = .none
-                let imageView = UIImageView(image: UIImage(named: "Empty_Background"))
-                imageView.backgroundColor = .backgroundColor
+                let imageView = UIImageView(image: UIImage(named: "Empty_Background1"))
                 imageView.contentMode = .scaleAspectFit
                 imageView.backgroundColor = .white
                 tableView.backgroundView = imageView
@@ -37,8 +40,13 @@ class GameListVC: UIViewController {
         setNavController()
         loadGames()
         configureTableView()
+        setHelpVC()
     }
-    
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+
     func loadGames() {
         let defaults = UserDefaults.standard
         
@@ -58,6 +66,7 @@ class GameListVC: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewGameTapped))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .plain, target: self, action: #selector(displayHelp))
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToTop))
     }
     
@@ -78,6 +87,26 @@ class GameListVC: UIViewController {
         tableView.dataSource = self
     }
     
+    func setHelpVC() {
+        helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
+        helpVC.isModalInPresentation = true
+    }
+    
+    @objc func displayHelp() {
+        helpVC.helpView.image = UIImage(named: "GameListVC_HelpImage")
+        present(helpVC, animated: true) {
+            UIView.animate(withDuration: 1, animations: {
+                self.helpVC.helpView.alpha = 1.0
+            })
+        }
+    }
+    
+    @objc func closeHelp() {
+        helpVC.helpView.image = UIImage(named: "GameListVC_HelpImage")
+        helpVC.dismiss(animated: true) {
+            self.helpVC.helpView.alpha = 0.0
+        }
+    }
 }
 
 
@@ -101,6 +130,7 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
         let selectedGame = games[indexPath.row]
         selectedGame.updateLastEditted()
         VC.game = selectedGame
+        VC.gameDataDelegate = self
         games.remove(at: indexPath.row)
         games.insert(selectedGame, at: 0)
         navigationController?.pushViewController(VC, animated: true)
@@ -174,5 +204,8 @@ extension GameListVC: GameDataDelegate {
         save()
         self.tableView.reloadData()
     }
+    
+    func saveGame() {
+        save()
+    }
 }
-

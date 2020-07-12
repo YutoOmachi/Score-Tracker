@@ -14,6 +14,7 @@ class PlayerListVC: UIViewController {
     var game: Game!
     
     let tableView = UITableView()
+    var gameDataDelegate: GameDataDelegate?
     
     var highestScores = [0,0,0]
     var rankIndex = [0,0,0]
@@ -255,5 +256,7 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         }
         game.updateLastEditted()
         tableView.reloadData()
+        
+        gameDataDelegate?.saveGame()
     }
 }
