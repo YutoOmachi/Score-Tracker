@@ -13,6 +13,8 @@ class HistoryVC: UIViewController {
     
     let tableView = UITableView()
     var game: Game!
+    
+    let helpVC = HelpVC()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,13 @@ class HistoryVC: UIViewController {
             tableView
         }
         
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .plain, target: self, action: #selector(displayHelp))
+
+        configureTableView()
+        setHelpVC()
+    }
+    
+    func configureTableView() {
         tableView.height(100%).width(100%).left(0).top(0)
         tableView.backgroundColor = .backgroundColor
         tableView.register(HistoryCell.self, forCellReuseIdentifier: "history")
@@ -30,6 +39,26 @@ class HistoryVC: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
     }
+    
+    func setHelpVC() {
+        helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
+        helpVC.modalPresentationStyle = .fullScreen
+        helpVC.helpView.image = UIImage(named: "NewGameVC_HelpImage")
+    }
+    
+    @objc func displayHelp() {
+        helpVC.helpView.alpha = 0.0
+        present(helpVC, animated: true) {
+            UIView.animate(withDuration: 1, animations: {
+                self.helpVC.helpView.alpha = 1.0
+            })
+        }
+    }
+    
+    @objc func closeHelp() {
+        helpVC.dismiss(animated: true)
+    }
+
 
 }
 

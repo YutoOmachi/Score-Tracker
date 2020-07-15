@@ -11,7 +11,7 @@ import Stevia
 
 class HelpVC: UIViewController {
 
-    let closeButton = UIButton(type: .close)
+    var closeButton = UIButton(type: .custom)
     let helpView = UIImageView()
 
     override func viewDidLoad() {
@@ -20,26 +20,34 @@ class HelpVC: UIViewController {
         setViewController()
         setConstraints()   
         setHelpView()
+        configureButton()
     }
     
     func setViewController() {
         self.view.backgroundColor = .clear
         self.modalTransitionStyle = .crossDissolve
-        self.modalPresentationStyle = .formSheet
+        self.modalPresentationStyle = .overFullScreen
+        self.isModalInPresentation = false
+        self.helpView.backgroundColor = .red
     }
     
     func setHelpView() {
         helpView.contentMode = .scaleAspectFit
-        helpView.alpha = 0.0
     }
     
     func setConstraints() {
         view.subviews {
-            closeButton
             helpView
+            closeButton
         }
-        helpView.bottom(5%).centerHorizontally().width(80%).height(80%)
-        closeButton.top(10%).right(10%).width(15%).heightEqualsWidth()
+        helpView.height(101%).width(101%).left(-2).top(-2)
+        closeButton.top(5%).left(5%).width(10%).heightEqualsWidth()
+    }
+    
+    func configureButton() {
+        closeButton.backgroundColor = .lightGray
+        closeButton.setTitle("X", for: .normal)
+        closeButton.setTitleColor(.white, for: .normal)
     }
     
 }

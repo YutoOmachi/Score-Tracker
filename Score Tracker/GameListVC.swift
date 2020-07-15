@@ -88,12 +88,13 @@ class GameListVC: UIViewController {
     }
     
     func setHelpVC() {
+        helpVC.modalPresentationStyle = .fullScreen
+        helpVC.helpView.image = UIImage(named: "GameListVC_HelpImage")
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
-        helpVC.isModalInPresentation = true
     }
     
     @objc func displayHelp() {
-        helpVC.helpView.image = UIImage(named: "GameListVC_HelpImage")
+        self.helpVC.helpView.alpha = 0.0
         present(helpVC, animated: true) {
             UIView.animate(withDuration: 1, animations: {
                 self.helpVC.helpView.alpha = 1.0
@@ -102,10 +103,7 @@ class GameListVC: UIViewController {
     }
     
     @objc func closeHelp() {
-        helpVC.helpView.image = UIImage(named: "GameListVC_HelpImage")
-        helpVC.dismiss(animated: true) {
-            self.helpVC.helpView.alpha = 0.0
-        }
+        helpVC.dismiss(animated: true, completion: nil)
     }
 }
 

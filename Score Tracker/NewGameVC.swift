@@ -26,6 +26,7 @@ class NewGameVC: UIViewController {
     var colorPickerController: DefaultColorPickerViewController!
     var colorNavController: UINavigationController!
 
+    let helpVC = HelpVC()
     
     var newGame = Game(title: "", firstCreated: Date())
         
@@ -44,6 +45,7 @@ class NewGameVC: UIViewController {
         configureTableView()
         initNewGame()
         setNotification()
+        setHelpVC()
     }
     
     func setNavController() {
@@ -52,6 +54,7 @@ class NewGameVC: UIViewController {
         self.navigationController?.navigationBar.barTintColor = UIColor.navigationColor
         self.navigationController?.navigationBar.tintColor = UIColor.white
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backToTop))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .plain, target: self, action: #selector(displayHelp))
     }
         
     @objc func backToTop() {
@@ -82,6 +85,25 @@ class NewGameVC: UIViewController {
     func initNewGame() {
         newGame.players.append(Player(name: "", color: UIColor.cyan.rgba))
         newGame.players.append(Player(name: "", color: UIColor.navigationColor.rgba))
+    }
+    
+    func setHelpVC() {
+        helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
+        helpVC.modalPresentationStyle = .fullScreen
+        helpVC.helpView.image = UIImage(named: "NewGameVC_HelpImage")
+    }
+    
+    @objc func displayHelp() {
+        helpVC.helpView.alpha = 0.0
+        present(helpVC, animated: true) {
+            UIView.animate(withDuration: 1, animations: {
+                self.helpVC.helpView.alpha = 1.0
+            })
+        }
+    }
+    
+    @objc func closeHelp() {
+        helpVC.dismiss(animated: true) 
     }
     
     @objc func keyboardWillChange(_ notification: Notification) {

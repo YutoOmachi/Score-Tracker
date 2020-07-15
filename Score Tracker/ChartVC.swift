@@ -20,6 +20,7 @@ enum Visible {
 }
 
 class ChartVC: UIViewController{
+    let helpVC = HelpVC()
     
     var players = [Player]()
     
@@ -92,6 +93,7 @@ class ChartVC: UIViewController{
         setLayouts()
         setCharData()
         setData()
+        setHelpVC()
     }
         
     func setLayouts() {
@@ -105,7 +107,8 @@ class ChartVC: UIViewController{
     func setNavController() {
         let image = UIImage(systemName: "square.and.arrow.up")
         let saveButton = UIBarButtonItem(image: image, style: .plain, target: self, action: #selector(shareChartTapped))
-        navigationItem.rightBarButtonItem = saveButton
+        let helpButton = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .plain, target: self, action: #selector(displayHelp))
+        navigationItem.rightBarButtonItems = [saveButton, helpButton]
     }
     
     @objc func shareChartTapped(_ sender: UIBarButtonItem) {
@@ -209,6 +212,26 @@ class ChartVC: UIViewController{
         lineChartView.moveViewToX(Double(players[0].pastPoints.count))
         lineChartView.animate(xAxisDuration: 1)
     }
+    
+    func setHelpVC() {
+        helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
+        helpVC.modalPresentationStyle = .fullScreen
+        helpVC.helpView.image = UIImage(named: "NewGameVC_HelpImage")
+    }
+    
+    @objc func displayHelp() {
+        helpVC.helpView.alpha = 0.0
+        present(helpVC, animated: true) {
+            UIView.animate(withDuration: 1, animations: {
+                self.helpVC.helpView.alpha = 1.0
+            })
+        }
+    }
+    
+    @objc func closeHelp() {
+        helpVC.dismiss(animated: true)
+    }
+
 }
 
 extension ChartVC: ChartViewDelegate {

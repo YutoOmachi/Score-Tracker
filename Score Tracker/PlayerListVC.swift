@@ -19,6 +19,8 @@ class PlayerListVC: UIViewController {
     var highestScores = [0,0,0]
     var rankIndex = [0,0,0]
     
+    let helpVC = HelpVC()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
@@ -29,10 +31,13 @@ class PlayerListVC: UIViewController {
         setNotification()
         configureTableView()
         configureNavController()
+        setHelpVC()
     }
     
     func configureNavController() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Chart", style: .plain, target: self, action: #selector(chartTapped))
+        let chartButton = UIBarButtonItem(title: "Chart", style: .plain, target: self, action: #selector(chartTapped))
+        let helpButton = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .plain, target: self, action: #selector(displayHelp))
+        self.navigationItem.rightBarButtonItems = [chartButton,helpButton]
         self.navigationController?.navigationBar.titleTextAttributes = [.foregroundColor : UIColor.white, .font: UIFont.myBoldSystemFont(ofSize: 22)]
     }
     
@@ -94,6 +99,26 @@ class PlayerListVC: UIViewController {
         chartVC.players = game.players
         navigationController?.pushViewController(chartVC, animated: true)
     }
+    
+    func setHelpVC() {
+        helpVC.modalPresentationStyle = .fullScreen
+        helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
+        helpVC.helpView.image = UIImage(named: "PlayerListVC_HelpImage")
+    }
+    
+    @objc func displayHelp() {
+        helpVC.helpView.alpha = 0.0
+        present(helpVC, animated: true) {
+            UIView.animate(withDuration: 1, animations: {
+                self.helpVC.helpView.alpha = 1.0
+            })
+        }
+    }
+    
+    @objc func closeHelp() {
+        helpVC.dismiss(animated: true)
+    }
+
 }
 
 extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
