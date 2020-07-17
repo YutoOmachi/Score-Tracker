@@ -216,7 +216,7 @@ class ChartVC: UIViewController{
     func setHelpVC() {
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
         helpVC.modalPresentationStyle = .fullScreen
-        helpVC.helpView.image = UIImage(named: "NewGameVC_HelpImage")
+        helpVC.helpView.image = UIImage(named: "ChartVC_HelpImage")
     }
     
     @objc func displayHelp() {

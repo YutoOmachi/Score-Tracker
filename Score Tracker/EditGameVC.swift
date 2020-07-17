@@ -88,7 +88,7 @@ class EditGameVC: UIViewController {
         helpVC.modalPresentationStyle = .fullScreen
         helpVC.modalTransitionStyle = .crossDissolve
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
-        helpVC.helpView.image = UIImage(named: "NewGameVC_HelpImage")
+        helpVC.helpView.image = UIImage(named: "EditGameVC_HelpImage")
     }
     
     @objc func displayHelp() {

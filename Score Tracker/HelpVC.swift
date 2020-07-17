@@ -28,11 +28,11 @@ class HelpVC: UIViewController {
         self.modalTransitionStyle = .crossDissolve
         self.modalPresentationStyle = .overFullScreen
         self.isModalInPresentation = false
-        self.helpView.backgroundColor = .red
+        self.helpView.backgroundColor = .darkGray
     }
     
     func setHelpView() {
-        helpView.contentMode = .scaleAspectFit
+        helpView.contentMode = .scaleToFill
     }
     
     func setConstraints() {

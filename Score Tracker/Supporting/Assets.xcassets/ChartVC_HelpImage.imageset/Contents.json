@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "HelpImage_GameListVC_HelpImage.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "HelpImage_GameListVC_HelpImage@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "HelpImage_GameListVC_HelpImage@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
