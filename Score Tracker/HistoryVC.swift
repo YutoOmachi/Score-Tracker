@@ -48,9 +48,11 @@ class HistoryVC: UIViewController {
     
     @objc func displayHelp() {
         helpVC.helpView.alpha = 0.0
+        helpVC.closeButton.alpha = 0.0
         present(helpVC, animated: true) {
             UIView.animate(withDuration: 1, animations: {
                 self.helpVC.helpView.alpha = 1.0
+                self.helpVC.closeButton.alpha = 1.0
             })
         }
     }
@@ -117,12 +119,25 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
             label.backgroundColor = UIColor.whiteGray
             if i != 0 {
                 let text = game.players[i-1].name
-                let color = game.players[i-1].color
+//                let color = game.players[i-1].color
                 let attr: [NSAttributedString.Key: Any] = [
                     .font: UIFont.myBoldSystemFont(ofSize: 22),
-                    .foregroundColor:  UIColor(red: color[0], green: color[1], blue: color[2], alpha: color[3]),
+                    .foregroundColor: UIColor.white,
+//                    .foregroundColor:  UIColor(red: color[0], green: color[1], blue: color[2], alpha: color[3]),
                     .strokeColor: UIColor.white,
                     .strokeWidth: -1
+                ]
+                let attributedString = NSAttributedString(string: text, attributes: attr)
+                label.attributedText = attributedString
+            }
+            else {
+                let text = "(Round)"
+                let attr: [NSAttributedString.Key: Any] = [
+                .font: UIFont.myBoldSystemFont(ofSize: 22),
+                .foregroundColor: UIColor.white,
+                //                    .foregroundColor:  UIColor(red: color[0], green: color[1], blue: color[2], alpha: color[3]),
+                .strokeColor: UIColor.white,
+                .strokeWidth: -1
                 ]
                 let attributedString = NSAttributedString(string: text, attributes: attr)
                 label.attributedText = attributedString

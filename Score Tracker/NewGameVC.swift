@@ -95,9 +95,11 @@ class NewGameVC: UIViewController {
     
     @objc func displayHelp() {
         helpVC.helpView.alpha = 0.0
+        helpVC.closeButton.alpha = 0.0
         present(helpVC, animated: true) {
             UIView.animate(withDuration: 1, animations: {
                 self.helpVC.helpView.alpha = 1.0
+                self.helpVC.closeButton.alpha = 1.0
             })
         }
     }

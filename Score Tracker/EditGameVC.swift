@@ -36,7 +36,8 @@ class EditGameVC: UIViewController {
         setTableViewDelegates()
         
         setNavController()
-        setNotification()        
+        setNotification()
+        setHelpVC()
     }
     
     func configureTableView() {
@@ -86,16 +87,17 @@ class EditGameVC: UIViewController {
     
     func setHelpVC() {
         helpVC.modalPresentationStyle = .fullScreen
-        helpVC.modalTransitionStyle = .crossDissolve
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
         helpVC.helpView.image = UIImage(named: "EditGameVC_HelpImage")
     }
     
     @objc func displayHelp() {
         helpVC.helpView.alpha = 0.0
+        helpVC.closeButton.alpha = 0.0
         present(helpVC, animated: true) {
             UIView.animate(withDuration: 1, animations: {
                 self.helpVC.helpView.alpha = 1.0
+                self.helpVC.closeButton.alpha = 1.0
             })
         }
     }
