@@ -32,6 +32,8 @@
 		3F510BB22498EBDB009E4C94 /* CustomButtom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510BB12498EBDB009E4C94 /* CustomButtom.swift */; };
 		3F510BB42499BDE6009E4C94 /* FontHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F510BB32499BDE6009E4C94 /* FontHelper.swift */; };
 		3F8892DE24BB0026007AEE05 /* HelpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F8892DD24BB0026007AEE05 /* HelpVC.swift */; };
+		3FC1C34D24C31CA70021DC09 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC1C34C24C31CA70021DC09 /* WelcomeVC.swift */; };
+		3FC1C34F24C327E60021DC09 /* WelcomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FC1C34E24C327E60021DC09 /* WelcomeCell.swift */; };
 		3FEC239524AEFB6700CE2E18 /* EditGameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FEC239424AEFB6700CE2E18 /* EditGameVC.swift */; };
 		D8BCB41FBCD94DBAC13920C7 /* Pods_Score_Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */; };
 /* End PBXBuildFile section */
@@ -62,6 +64,8 @@
 		3F510BB12498EBDB009E4C94 /* CustomButtom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButtom.swift; sourceTree = "<group>"; };
 		3F510BB32499BDE6009E4C94 /* FontHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontHelper.swift; sourceTree = "<group>"; };
 		3F8892DD24BB0026007AEE05 /* HelpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpVC.swift; sourceTree = "<group>"; };
+		3FC1C34C24C31CA70021DC09 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
+		3FC1C34E24C327E60021DC09 /* WelcomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeCell.swift; sourceTree = "<group>"; };
 		3FEC239424AEFB6700CE2E18 /* EditGameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditGameVC.swift; sourceTree = "<group>"; };
 		7B5C0E62AB72A1F3879A3CF5 /* Pods-Score Tracker.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Score Tracker.release.xcconfig"; path = "Target Support Files/Pods-Score Tracker/Pods-Score Tracker.release.xcconfig"; sourceTree = "<group>"; };
 		A48A069DBB924C02FF957FC5 /* Pods_Score_Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Score_Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,7 +112,6 @@
 				3F293D7F248A26CB00FA77D4 /* GameCell.swift */,
 				3FEC239424AEFB6700CE2E18 /* EditGameVC.swift */,
 				3F510BA42494BB3E009E4C94 /* NewGameVC.swift */,
-				3F8892DD24BB0026007AEE05 /* HelpVC.swift */,
 				3F510BA72494D817009E4C94 /* NewGameVCCell */,
 				3F293D84248A4B1400FA77D4 /* PlayerListVC.swift */,
 				3F510BA62494D7C8009E4C94 /* PlayerListVCCell */,
@@ -118,6 +121,9 @@
 				3F293D6F248A12EC00FA77D4 /* Info.plist */,
 				3F510B9A248CB68B009E4C94 /* Player.swift */,
 				3F510B9C248CBE08009E4C94 /* Game.swift */,
+				3F8892DD24BB0026007AEE05 /* HelpVC.swift */,
+				3FC1C34C24C31CA70021DC09 /* WelcomeVC.swift */,
+				3FC1C34E24C327E60021DC09 /* WelcomeCell.swift */,
 				3F293D7D248A233600FA77D4 /* Extensions */,
 				3F293D7E248A234C00FA77D4 /* Supporting */,
 			);
@@ -304,12 +310,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F293D62248A12E100FA77D4 /* AppDelegate.swift in Sources */,
+				3FC1C34F24C327E60021DC09 /* WelcomeCell.swift in Sources */,
 				3F293D64248A12E100FA77D4 /* SceneDelegate.swift in Sources */,
 				3F510BB22498EBDB009E4C94 /* CustomButtom.swift in Sources */,
 				3F293D87248A4D1200FA77D4 /* PlayerCell.swift in Sources */,
 				3F293D76248A13D600FA77D4 /* GameListScreen.swift in Sources */,
 				3F510BA92494DBE5009E4C94 /* NewPlayerCell.swift in Sources */,
 				3F510BAD2494DC25009E4C94 /* CreateNewGameCell.swift in Sources */,
+				3FC1C34D24C31CA70021DC09 /* WelcomeVC.swift in Sources */,
 				3F293D7A248A22A600FA77D4 /* GameListVC.swift in Sources */,
 				3F42AFC124A07385007F903C /* HistoryVC.swift in Sources */,
 				3F510BAB2494DC08009E4C94 /* NewGameTitleCell.swift in Sources */,
