@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import Stevia
 
 class WelcomeCell: UICollectionViewCell {
+    let imgView = UIImageView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -20,6 +22,11 @@ class WelcomeCell: UICollectionViewCell {
     }
     
     func configureCell() {
-        
+        self.subviews{
+            imgView
+        }
+        imgView.size(100%)
+        imgView.contentMode = .scaleAspectFit
+        imgView.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1)
     }
 }
