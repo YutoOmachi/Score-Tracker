@@ -20,12 +20,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-//            let navViewController = UINavigationController(rootViewController: GameListVC())
-//            window.rootViewController = navViewController
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .horizontal
-            let welcomeVC = WelcomeVC(collectionViewLayout: layout)
-            window.rootViewController = welcomeVC
+
+            let defaults = UserDefaults.standard
+            if defaults.object(forKey: "isFirstTime") == nil {
+                defaults.set("No", forKey:"isFirstTime")
+                let layout = UICollectionViewFlowLayout()
+                layout.scrollDirection = .horizontal
+                let welcomeVC = WelcomeVC(collectionViewLayout: layout)
+                window.rootViewController = welcomeVC
+            }
+            else {
+                let navViewController = UINavigationController(rootViewController: GameListVC())
+                window.rootViewController = navViewController
+            }
+
             self.window = window
             window.makeKeyAndVisible()
         }

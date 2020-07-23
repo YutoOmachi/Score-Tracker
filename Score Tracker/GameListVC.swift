@@ -31,8 +31,8 @@ class GameListVC: UIViewController {
             }
         }
     }
-        
-    override func viewDidLoad() {
+
+    override func viewDidLoad() {        
         super.viewDidLoad()
         view.subviews {
             tableView
@@ -49,7 +49,6 @@ class GameListVC: UIViewController {
 
     func loadGames() {
         let defaults = UserDefaults.standard
-        
         if let savedGames = defaults.object(forKey: "games") as? Data {
             let jsonDecoder = JSONDecoder()
             do {
@@ -57,6 +56,13 @@ class GameListVC: UIViewController {
             } catch {
                 print("Failed to load images")
             }
+        }
+        if games.count == 0 {
+            tableView.separatorStyle = .none
+            let imageView = UIImageView(image: UIImage(named: "Empty_Background1"))
+            imageView.contentMode = .scaleAspectFit
+            imageView.backgroundColor = .white
+            tableView.backgroundView = imageView
         }
     }
     

@@ -11,7 +11,7 @@ import Stevia
 
 class WelcomeVC: UICollectionViewController {
     
-    var numPages = 4
+    var numPages = 3
     
     var startButton: UIButton = {
         let button = UIButton()
@@ -72,7 +72,6 @@ class WelcomeVC: UICollectionViewController {
     
     override func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         let x = targetContentOffset.pointee.x
-        
         pageControl.currentPage = Int(x/view.frame.width)
     }
     
@@ -84,7 +83,12 @@ class WelcomeVC: UICollectionViewController {
     }
     
     @objc func startButtonTapped() {
-        print("start button tapped")
+        self.view.window?.rootViewController?.dismiss(animated: true, completion: nil)
+        let VC = GameListVC()
+        let navController = UINavigationController(rootViewController: VC)
+        navController.modalPresentationStyle = .fullScreen
+        navController.modalTransitionStyle = .crossDissolve
+        present(navController, animated: true)
     }
 
 }
