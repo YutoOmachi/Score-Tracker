@@ -43,7 +43,7 @@ class HistoryVC: UIViewController {
     func setHelpVC() {
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
         helpVC.modalPresentationStyle = .fullScreen
-        helpVC.helpView.image = UIImage(named: "NewGameVC_HelpImage")
+        helpVC.helpView.image = UIImage(named: "HistoryVC_HelpImage")
     }
     
     @objc func displayHelp() {
@@ -116,25 +116,14 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
             label.layer.borderWidth = 0.5
             label.adjustsFontSizeToFitWidth = true
             label.numberOfLines = 0
-            label.backgroundColor = UIColor.whiteGray
+            label.backgroundColor = UIColor.navigationColor.withAlphaComponent(0.5)
             if i != 0 {
                 let text = game.players[i-1].name
                 let attr: [NSAttributedString.Key: Any] = [
-                    .font: UIFont.myBoldSystemFont(ofSize: 22),
+                    .font: UIFont.mySystemFont(ofSize: 18),
                     .foregroundColor: UIColor.white,
                     .strokeColor: UIColor.white,
                     .strokeWidth: -1
-                ]
-                let attributedString = NSAttributedString(string: text, attributes: attr)
-                label.attributedText = attributedString
-            }
-            else {
-                let text = "(Round)"
-                let attr: [NSAttributedString.Key: Any] = [
-                .font: UIFont.myBoldSystemFont(ofSize: 22),
-                .foregroundColor: UIColor.white,
-                .strokeColor: UIColor.white,
-                .strokeWidth: -1
                 ]
                 let attributedString = NSAttributedString(string: text, attributes: attr)
                 label.attributedText = attributedString
