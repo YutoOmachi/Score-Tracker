@@ -26,7 +26,7 @@ class NewGameVC: UIViewController {
     var colorPickerController: DefaultColorPickerViewController!
     var colorNavController: UINavigationController!
 
-    let helpVC = HelpVC()
+    lazy var helpVC = HelpVC()
     
     var newGame = Game(title: "", firstCreated: Date())
         
@@ -90,7 +90,9 @@ class NewGameVC: UIViewController {
     func setHelpVC() {
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
         helpVC.modalPresentationStyle = .fullScreen
-        helpVC.helpView.image = UIImage(named: "NewGameVC_HelpImage")
+        let imagePath = Bundle.main.path(forResource: "NewGameVC_HelpImage\(RESOLUTION)", ofType: "png")
+        let image = UIImage(contentsOfFile: imagePath!)
+        helpVC.helpView.image = image
     }
     
     @objc func displayHelp() {

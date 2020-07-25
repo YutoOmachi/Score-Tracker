@@ -14,13 +14,15 @@ class GameListVC: UIViewController {
     
     let tableView = UITableView()
     
-    let helpVC = HelpVC()
+    lazy var helpVC = HelpVC()
 
     var games = [Game]() {
         didSet {
             if games.count == 0 {
                 tableView.separatorStyle = .none
-                let imageView = UIImageView(image: UIImage(named: "Empty_Background1"))
+                let imagePath = Bundle.main.path(forResource: "Empty_BackGround\(RESOLUTION)", ofType: "png")
+                let image = UIImage(contentsOfFile: imagePath!)
+                let imageView = UIImageView(image: image)
                 imageView.contentMode = .scaleAspectFit
                 imageView.backgroundColor = .white
                 tableView.backgroundView = imageView
@@ -37,6 +39,7 @@ class GameListVC: UIViewController {
         view.subviews {
             tableView
         }
+        print(RESOLUTION)
         setNavController()
         loadGames()
         configureTableView()
@@ -59,7 +62,9 @@ class GameListVC: UIViewController {
         }
         if games.count == 0 {
             tableView.separatorStyle = .none
-            let imageView = UIImageView(image: UIImage(named: "Empty_Background1"))
+            let imagePath = Bundle.main.path(forResource: "Empty_BackGround\(RESOLUTION)", ofType: "png")
+            let image = UIImage(contentsOfFile: imagePath!)
+            let imageView = UIImageView(image: image)
             imageView.contentMode = .scaleAspectFit
             imageView.backgroundColor = .white
             tableView.backgroundView = imageView
@@ -95,7 +100,9 @@ class GameListVC: UIViewController {
     
     func setHelpVC() {
         helpVC.modalPresentationStyle = .fullScreen
-        helpVC.helpView.image = UIImage(named: "GameListVC_HelpImage")
+        let imagePath = Bundle.main.path(forResource: "GameListVC_HelpImage\(RESOLUTION)", ofType: "png")
+        let image = UIImage(contentsOfFile: imagePath!)
+        helpVC.helpView.image = image
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
     }
     

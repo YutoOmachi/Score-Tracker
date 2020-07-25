@@ -88,7 +88,8 @@ class EditGameVC: UIViewController {
     func setHelpVC() {
         helpVC.modalPresentationStyle = .fullScreen
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
-        helpVC.helpView.image = UIImage(named: "EditGameVC_HelpImage")
+        let imagePath = Bundle.main.path(forResource: "EditGameVC_HelpImage\(RESOLUTION)", ofType: "png")
+        helpVC.helpView.image = UIImage(contentsOfFile: imagePath!)
     }
     
     @objc func displayHelp() {

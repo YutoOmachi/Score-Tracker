@@ -8,6 +8,9 @@
 
 import UIKit
 
+let RESOLUTION:String = "@" + String(Int(UIScreen.main.scale)) + "x"
+
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?

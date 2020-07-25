@@ -30,8 +30,16 @@ extension UIColor
     }
 }
 
-extension UIFont
-{
-    static let titleFont = UIFont(name: "Futura-Medium", size: 20)!
-    static let textFont = UIFont(name: "Futura-Medium", size: 16)!
-}
+//extension UIImage {
+//    
+//    convenience init?(contentsOfFile name: String) {
+//        print("\(name)\(RESOLUTION)")
+//        let imgName = "\(name)\(RESOLUTION)"
+//        guard let imagePath = Bundle.main.path(forResource: imgName, ofType: "png") else {
+//            print("returning nil")
+//            return nil
+//        }
+//        self.init(contentsOfFile: imagePath)
+//    }
+//    
+//}
