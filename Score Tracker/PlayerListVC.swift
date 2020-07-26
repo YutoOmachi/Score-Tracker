@@ -248,7 +248,7 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         }
         
         if allZero {
-            let ac = UIAlertController(title: "Update?", message: "All players have 0 points added.\nDo you still want to update?", preferredStyle: .alert)
+            let ac = UIAlertController(title: "Update?", message: "All players have 0 points.\nDo you still want to update?", preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "Update", style: .default) { [weak self] _ in
                 self?.update()
             })

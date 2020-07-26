@@ -146,7 +146,7 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func deleteTapped(row: Int) {
-        let ac = UIAlertController(title: "Delete this round?", message: "Once you deleted, the score cannot be restored", preferredStyle: .alert)
+        let ac = UIAlertController(title: "Delete this round?", message: "Once deleted, the score can't be restored", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Delete", style: .destructive){ [weak self] _ in
             self?.updatePastRecords(row: row)
             self?.tableView.reloadData()

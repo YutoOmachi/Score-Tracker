@@ -84,7 +84,7 @@ class NewGameVC: UIViewController {
     
     func initNewGame() {
         newGame.players.append(Player(name: "", color: UIColor.cyan.rgba))
-        newGame.players.append(Player(name: "", color: UIColor.navigationColor.rgba))
+        newGame.players.append(Player(name: "", color: UIColor.green.rgba))
     }
     
     func setHelpVC() {
@@ -236,11 +236,11 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
     
     @objc func addPlayerTapped() {
         var color: UIColor
-        switch newGame.players.count {
+        switch newGame.players.count%7 {
             case 0:
                 color = .cyan
             case 1:
-                color = .navigationColor
+                color = .green
             case 2:
                 color = .magenta
             case 3:
