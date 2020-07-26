@@ -43,7 +43,9 @@ class HistoryVC: UIViewController {
     func setHelpVC() {
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
         helpVC.modalPresentationStyle = .fullScreen
-        helpVC.helpView.image = UIImage(named: "HistoryVC_HelpImage")
+        let imagePath = Bundle.main.path(forResource: "HistoryVC_HelpImage\(RESOLUTION)", ofType: "png")
+        let image = UIImage(contentsOfFile: imagePath!)
+        helpVC.helpView.image = image
     }
     
     @objc func displayHelp() {

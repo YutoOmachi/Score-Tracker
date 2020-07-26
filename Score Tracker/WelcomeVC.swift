@@ -55,11 +55,17 @@ class WelcomeVC: UICollectionViewController {
         
         switch indexPath.item {
         case 0:
-            cell.imgView.image = UIImage(named: "Welcome1")
+            let imagePath = Bundle.main.path(forResource: "Welcome1\(RESOLUTION)", ofType: "png")
+            let image = UIImage(contentsOfFile: imagePath!)
+            cell.imgView.image = image
         case 1:
-            cell.imgView.image = UIImage(named: "Welcome2")
+            let imagePath = Bundle.main.path(forResource: "Welcome2\(RESOLUTION)", ofType: "png")
+            let image = UIImage(contentsOfFile: imagePath!)
+            cell.imgView.image = image
         case 2:
-            cell.imgView.image = UIImage(named: "Welcome3")
+            let imagePath = Bundle.main.path(forResource: "Welcome3\(RESOLUTION)", ofType: "png")
+            let image = UIImage(contentsOfFile: imagePath!)
+            cell.imgView.image = image
         default:
             return cell
         }

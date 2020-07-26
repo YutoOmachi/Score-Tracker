@@ -97,7 +97,7 @@ class ChartVC: UIViewController{
     }
         
     func setLayouts() {
-        lineChartView.height(80%).bottom(0).width(100%).left(0)
+        lineChartView.height(80%).bottom(3%).width(96%).left(2%)
         dataTypeControl.height(5%).top(3%).width(60%).left(20%)
         visibleGameControl.height(5%).top(10%).width(60%).left(20%)
         
@@ -216,7 +216,9 @@ class ChartVC: UIViewController{
     func setHelpVC() {
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
         helpVC.modalPresentationStyle = .fullScreen
-        helpVC.helpView.image = UIImage(named: "ChartVC_HelpImage")
+        let imagePath = Bundle.main.path(forResource: "ChartVC_HelpImage\(RESOLUTION)", ofType: "png")
+        let image = UIImage(contentsOfFile: imagePath!)
+        helpVC.helpView.image = image
     }
     
     @objc func displayHelp() {
