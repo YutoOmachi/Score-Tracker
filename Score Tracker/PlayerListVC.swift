@@ -263,6 +263,7 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
     @objc func historyTapped() {
         let VC = HistoryVC()
         VC.game = game
+        VC.gameDataDelegate = self.gameDataDelegate
         navigationController?.pushViewController(VC, animated: true)
     }
     

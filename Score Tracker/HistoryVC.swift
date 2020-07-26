@@ -13,7 +13,8 @@ class HistoryVC: UIViewController {
     
     let tableView = UITableView()
     var game: Game!
-    
+    var gameDataDelegate: GameDataDelegate?
+
     let helpVC = HelpVC()
 
     override func viewDidLoad() {
@@ -149,6 +150,7 @@ extension HistoryVC: UITableViewDelegate, UITableViewDataSource {
         ac.addAction(UIAlertAction(title: "Delete", style: .destructive){ [weak self] _ in
             self?.updatePastRecords(row: row)
             self?.tableView.reloadData()
+            self?.gameDataDelegate?.saveGame()
         })
         ac.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(ac, animated: true)

@@ -39,7 +39,6 @@ class GameListVC: UIViewController {
         view.subviews {
             tableView
         }
-        print(RESOLUTION)
         setNavController()
         loadGames()
         configureTableView()
