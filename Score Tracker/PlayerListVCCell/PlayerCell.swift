@@ -81,7 +81,6 @@ class PlayerCell: UITableViewCell {
     }
 
     func configureMinusButton() {
-        minusButton.addTarget(self, action: #selector(minusOnePoint), for: .touchUpInside)
         minusButton.heightEqualsWidth().centerVertically().width(10%).left(58%)
         minusButton.layer.cornerRadius = self.frame.size.width*0.04
         let attr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 26)]
@@ -91,7 +90,6 @@ class PlayerCell: UITableViewCell {
     }
     
     func configurePlusButton() {
-        plusButton.addTarget(self, action: #selector(plusOnePoint), for: .touchUpInside)
         plusButton.heightEqualsWidth().centerVertically().width(10%).left(88%)
         plusButton.layer.cornerRadius = self.frame.size.width*0.04
         let attr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 24)]
@@ -112,18 +110,6 @@ class PlayerCell: UITableViewCell {
         pointField.height(50%).centerVertically().width(14%).left(71%)
     }
     
-    
-    @objc func plusOnePoint(sender: UIButton) {
-        if let addPoint = pointField.text {
-            pointField.text = "\((Int(addPoint) ?? 0) + 1)"
-        }
-    }
-    
-    @objc func minusOnePoint(sender: UIButton) {
-        if let addPoint = pointField.text {
-            pointField.text = "\((Int(addPoint) ?? 0) - 1)"
-        }
-    }
     
     func setExitterForPointField() {
         let toolbar = UIToolbar(frame: CGRect(origin: .zero, size: .init(width: 100, height: 30)))

@@ -14,6 +14,7 @@ class Player: NSObject, Codable, NSCopying {
     var pastRanks = [Int]()
     var pastPoints = [Int]()
     var color:[CGFloat]
+    var currPoint = 0
     
     init(name: String, color: [CGFloat]) {
         self.name = name

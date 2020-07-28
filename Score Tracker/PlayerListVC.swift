@@ -167,7 +167,7 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             rankLabel.attributedText = NSAttributedString(string: "Rank", attributes: attr)
             totalPointsLabel.attributedText = NSAttributedString(string: "Total", attributes: attr)
             addingPointLabel.attributedText = NSAttributedString(string: "Add", attributes: attr)
-            
+                        
             return headerView
         }
 
@@ -198,7 +198,13 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             cell.selectionStyle = .none
             cell.playerNameLabel.text = game.players[indexPath.row].name
             cell.totalPointsLabel.text = "\(game.players[indexPath.row].pastPoints.last ?? 0)"
-            
+            if game.players[indexPath.row].currPoint == 0 {
+                cell.pointField.text = ""
+            }
+            else {
+                cell.pointField.text = "\(game.players[indexPath.row].currPoint)"
+            }
+
             let colorCode = game.players[indexPath.row].color
             let playerColor = UIColor(red: colorCode[0], green: colorCode[1], blue: colorCode[2], alpha: colorCode[3])
             let buttonAttr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 18), .foregroundColor: playerColor, .strokeColor: UIColor.black, .strokeWidth: -3]
@@ -230,21 +236,43 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
                 cell.starLabel.attributedText = nil
             }
             
+            cell.plusButton.tag = indexPath.row
+            cell.minusButton.tag = indexPath.row
+            cell.plusButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
+            cell.minusButton.addTarget(self, action: #selector(minusButtonTapped), for: .touchUpInside)
+            
+            cell.pointField.tag = indexPath.row
+            cell.pointField.addTarget(self , action: #selector(pointFieldDidChange), for: .editingDidEnd)
+
             return cell
         }
         
         return UITableViewCell()
     }
     
+    @objc func plusButtonTapped(_ sender: UIButton){
+        game.players[sender.tag].currPoint += 1
+        tableView.reloadData()
+    }
+    
+    @objc func minusButtonTapped(_ sender: UIButton){
+        game.players[sender.tag].currPoint -= 1
+        tableView.reloadData()
+    }
+    
+    @objc func pointFieldDidChange(_ textField: UITextField) {
+        game.players[textField.tag].currPoint = Int(textField.text ?? "0") ?? 0
+        tableView.reloadData()
+    }
+    
     @objc func updateTapped() {
         var allZero = true
         for i in 0..<game.players.count {
-            if let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? PlayerCell {
-                if (Int(cell.pointField.text ?? "0") ?? 0) != 0 {
-                    allZero = false
-                    break
-                }
+            if game.players[i].currPoint != 0 {
+                allZero = false
+                break
             }
+
         }
         
         if allZero {
@@ -270,11 +298,10 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
     func update() {
         var playersArray = [Player]()
         for i in 0..<game.players.count {
-            if let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? PlayerCell, let addingPoint = cell.pointField.text{
-                game.players[i].pastPoints.append((game.players[i].pastPoints.last ?? 0) + (Int(addingPoint) ?? 0))
-                cell.pointField.text = ""
-                playersArray.append(game.players[i])
-            }
+            let player = game.players[i]
+            player.pastPoints.append((player.pastPoints.last ?? 0) + player.currPoint)
+            player.currPoint = 0
+            playersArray.append(player)
         }
         
         let sortedPlayers = playersArray.sorted(by: {$0.pastPoints.last ?? 0 > $1.pastPoints.last ?? 0})

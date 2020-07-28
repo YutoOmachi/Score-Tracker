@@ -218,7 +218,6 @@ extension GameListVC: GameDataDelegate {
     }
     
     func saveGame() {
-        print(games[0].players[0].pastPoints.count)
         save()
     }
 }

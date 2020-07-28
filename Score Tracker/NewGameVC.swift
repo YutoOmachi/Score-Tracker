@@ -203,6 +203,8 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource {
         VC.game = newGame
         VC.gameDataDelegate = self.gameDataDelegate
         navigationController?.pushViewController(VC, animated: true)
+        
+        //popping this VC from the stack
         guard let navigationController = self.navigationController else { return }
         var navigationArray = navigationController.viewControllers
         navigationArray.remove(at: navigationArray.count - 2)
