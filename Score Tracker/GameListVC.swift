@@ -56,7 +56,7 @@ class GameListVC: UIViewController {
             do {
                 games = try jsonDecoder.decode([Game].self, from: savedGames)
             } catch {
-                print("Failed to load images")
+                print("Failed to load ganes")
             }
         }
         if games.count == 0 {
@@ -172,9 +172,9 @@ extension GameListVC: UITableViewDelegate, UITableViewDataSource {
         config.performsFirstActionWithFullSwipe = false
         return config
     }
-    
+     
     func deleteTapped(indexPath: IndexPath) {
-        let ac = UIAlertController(title: "Delete?", message: "Do you really want to delete? \n(deleted game can't be restored)", preferredStyle: .alert)
+        let ac = UIAlertController(title: "Delete \"\(games[indexPath.row].title)\"?", message: "(deleted game can't be restored)", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "Delete", style: .destructive){
                 [weak self] _ in
                 self?.games.remove(at: indexPath.row)
