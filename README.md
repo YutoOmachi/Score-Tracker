@@ -2,6 +2,8 @@
 IOS App that can record the scores for games
 
 
+## Screen Shots
+
 
 ## Features
 * trackes users' game score datas on their phone
@@ -18,7 +20,6 @@ Swift 5.1
 ## Third Party Libraries 
 * [Charts](https://github.com/danielgindi/Charts)
 * [freshOS/Stevia](https://github.com/freshOS/Stevia)
+
 Thanks to the people that maintain these great libraries.
 
-http://github.com - automatic!
-[GitHub](http://github.com)
