@@ -3,6 +3,11 @@ IOS App that can record the scores for games
 
 
 ## Screen Shots
+<p align="middle"> 
+  <img src="ScoreTracker_SS/ScreenShot1.png" width="32%" >
+  <img src="ScoreTracker_SS/ScreenShot2.png" width="32%" >  
+  <img src="ScoreTracker_SS/ScreenShot3.png" width="32%" >
+</p>
 
 
 ## Features
