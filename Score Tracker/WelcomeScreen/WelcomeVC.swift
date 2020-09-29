@@ -63,8 +63,8 @@ class WelcomeVC: UICollectionViewController {
             let image = UIImage(contentsOfFile: imagePath!)
             cell.imgView.image = image
         case 2:
-            let imagePath = Bundle.main.path(forResource: "Welcome3\(RESOLUTION)", ofType: "png")
-            let image = UIImage(contentsOfFile: imagePath!)
+            guard let imagePath = Bundle.main.path(forResource: "Welcome3\(RESOLUTION)", ofType: "png") else {return cell}
+            let image = UIImage(contentsOfFile: imagePath)
             cell.imgView.image = image
         default:
             return cell
