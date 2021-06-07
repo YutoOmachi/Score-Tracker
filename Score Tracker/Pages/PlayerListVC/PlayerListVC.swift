@@ -272,7 +272,6 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
                 allZero = false
                 break
             }
-
         }
         
         if allZero {
@@ -289,7 +288,8 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func historyTapped() {
-        let VC = HistoryVC()
+//        let VC = HistoryVC()
+        let VC = HistoryHorizontalScrollVC()
         VC.game = game
         VC.gameDataDelegate = self.gameDataDelegate
         navigationController?.pushViewController(VC, animated: true)
@@ -311,7 +311,10 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         }
         game.updateLastEditted()
         tableView.reloadData()
-        
         gameDataDelegate?.saveGame()
+        
+        let ac = UIAlertController(title: "Updated Succefully", message: "The score is update!", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(ac, animated: true)
     }
 }
