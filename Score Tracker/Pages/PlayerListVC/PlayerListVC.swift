@@ -210,30 +210,22 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
             let buttonAttr: [NSAttributedString.Key : Any] = [.font: UIFont.myBoldSystemFont(ofSize: 18), .foregroundColor: playerColor, .strokeColor: UIColor.black, .strokeWidth: -3]
             cell.playerNameLabel.attributedText = NSAttributedString(string: "\(game.players[indexPath.row].name)", attributes: buttonAttr)
             
-            let text = "★"
-            var attr = [NSAttributedString.Key: Any]()
+            var text: String = ""
             
             switch game.players[indexPath.row].pastRanks.last ?? 0 {
             case 1:
-                attr = [.foregroundColor: UIColor.gold,
-                        .strokeColor: UIColor.black,
-                        .strokeWidth: -1
-                ]
-                cell.starLabel.attributedText = NSAttributedString(string: text, attributes: attr)
+                text = "🥇"
             case 2:
-                attr = [.foregroundColor: UIColor.silver,
-                        .strokeColor: UIColor.black,
-                        .strokeWidth: -1
-                ]
-                cell.starLabel.attributedText = NSAttributedString(string: text, attributes: attr)
+                text = "🥈"
             case 3:
-                attr = [.foregroundColor: UIColor.bronze,
-                        .strokeColor: UIColor.black,
-                        .strokeWidth: -1
-                ]
-                cell.starLabel.attributedText = NSAttributedString(string: text, attributes: attr)
+                text = "🥉"
             default:
                 cell.starLabel.attributedText = nil
+            }
+            
+            if text != "" {
+                cell.starLabel.text = text
+                cell.starLabel.font = UIFont.systemFont(ofSize: 24)
             }
             
             cell.plusButton.tag = indexPath.row
@@ -306,8 +298,12 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         
         let sortedPlayers = playersArray.sorted(by: {$0.pastPoints.last ?? 0 > $1.pastPoints.last ?? 0})
         
+        var placement = 1
         for (i, player) in sortedPlayers.enumerated() {
-            player.pastRanks.append(i+1)
+            if (i != 0 && player.pastPoints.last != sortedPlayers[i-1].pastPoints.last) {
+                placement = i+1
+            }
+            player.pastRanks.append(placement)
         }
         game.updateLastEditted()
         tableView.reloadData()
@@ -316,5 +312,9 @@ extension PlayerListVC: UITableViewDelegate, UITableViewDataSource {
         let ac = UIAlertController(title: "Updated Succefully", message: "The score is update!", preferredStyle: .alert)
         ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(ac, animated: true)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+            ac.dismiss(animated: true, completion: nil)
+        })
     }
 }
