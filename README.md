@@ -1,5 +1,7 @@
 # Score-Tracker
-IOS App that can record the scores for games
+IOS App that can record the scores for games <br/>
+For download, please click the link the below <br/>
+https://apps.apple.com/jp/app/score-tracker/id1525870927
 
 
 ## Screen Shots
