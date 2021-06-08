@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F2159232670189D004806AC /* HistoryHorizontalScrollVC_HelpImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F2159202670189C004806AC /* HistoryHorizontalScrollVC_HelpImage@2x.png */; };
+		3F2159242670189D004806AC /* HistoryHorizontalScrollVC_HelpImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F2159212670189C004806AC /* HistoryHorizontalScrollVC_HelpImage@3x.png */; };
+		3F2159252670189D004806AC /* HistoryHorizontalScrollVC_HelpImage@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F2159222670189D004806AC /* HistoryHorizontalScrollVC_HelpImage@1x.png */; };
+		3F21592A267018D8004806AC /* PlayerListVC_HelpImage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F215927267018D8004806AC /* PlayerListVC_HelpImage@3x.png */; };
+		3F21592B267018D8004806AC /* PlayerListVC_HelpImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F215928267018D8004806AC /* PlayerListVC_HelpImage.png */; };
+		3F21592C267018D8004806AC /* PlayerListVC_HelpImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 3F215929267018D8004806AC /* PlayerListVC_HelpImage@2x.png */; };
 		3F293D62248A12E100FA77D4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D61248A12E100FA77D4 /* AppDelegate.swift */; };
 		3F293D64248A12E100FA77D4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F293D63248A12E100FA77D4 /* SceneDelegate.swift */; };
 		3F293D6B248A12EC00FA77D4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F293D6A248A12EC00FA77D4 /* Assets.xcassets */; };
@@ -67,6 +73,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F2159202670189C004806AC /* HistoryHorizontalScrollVC_HelpImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HistoryHorizontalScrollVC_HelpImage@2x.png"; sourceTree = "<group>"; };
+		3F2159212670189C004806AC /* HistoryHorizontalScrollVC_HelpImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HistoryHorizontalScrollVC_HelpImage@3x.png"; sourceTree = "<group>"; };
+		3F2159222670189D004806AC /* HistoryHorizontalScrollVC_HelpImage@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "HistoryHorizontalScrollVC_HelpImage@1x.png"; sourceTree = "<group>"; };
+		3F215927267018D8004806AC /* PlayerListVC_HelpImage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PlayerListVC_HelpImage@3x.png"; path = "../../../../../../.Trash/PlayerListVC_HelpImage/PlayerListVC_HelpImage@3x.png"; sourceTree = "<group>"; };
+		3F215928267018D8004806AC /* PlayerListVC_HelpImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PlayerListVC_HelpImage.png; path = ../../../../../../.Trash/PlayerListVC_HelpImage/PlayerListVC_HelpImage.png; sourceTree = "<group>"; };
+		3F215929267018D8004806AC /* PlayerListVC_HelpImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "PlayerListVC_HelpImage@2x.png"; path = "../../../../../../.Trash/PlayerListVC_HelpImage/PlayerListVC_HelpImage@2x.png"; sourceTree = "<group>"; };
 		3F293D5E248A12E100FA77D4 /* Score Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Score Tracker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F293D61248A12E100FA77D4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F293D63248A12E100FA77D4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,7 +88,7 @@
 		3F293D77248A148300FA77D4 /* colorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = colorExtension.swift; sourceTree = "<group>"; };
 		3F293D79248A22A600FA77D4 /* GameListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameListVC.swift; sourceTree = "<group>"; };
 		3F293D7F248A26CB00FA77D4 /* GameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCell.swift; sourceTree = "<group>"; };
-		3F293D84248A4B1400FA77D4 /* PlayerListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListVC.swift; sourceTree = "<group>"; };
+		3F293D84248A4B1400FA77D4 /* PlayerListVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerListVC.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.xcfilelist; };
 		3F293D86248A4D1200FA77D4 /* PlayerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerCell.swift; sourceTree = "<group>"; };
 		3F3FE84E24D41B11007F59A4 /* Welcome3@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Welcome3@1x.png"; sourceTree = "<group>"; };
 		3F3FE84F24D41B11007F59A4 /* Welcome3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Welcome3@3x.png"; sourceTree = "<group>"; };
@@ -165,6 +177,26 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		3F21590C2670173D004806AC /* PlayerListVC_Help */ = {
+			isa = PBXGroup;
+			children = (
+				3F215928267018D8004806AC /* PlayerListVC_HelpImage.png */,
+				3F215929267018D8004806AC /* PlayerListVC_HelpImage@2x.png */,
+				3F215927267018D8004806AC /* PlayerListVC_HelpImage@3x.png */,
+			);
+			path = PlayerListVC_Help;
+			sourceTree = "<group>";
+		};
+		3F215926267018A2004806AC /* HistoryHorizontalScrollVC_HelpImage */ = {
+			isa = PBXGroup;
+			children = (
+				3F2159202670189C004806AC /* HistoryHorizontalScrollVC_HelpImage@2x.png */,
+				3F2159222670189D004806AC /* HistoryHorizontalScrollVC_HelpImage@1x.png */,
+				3F2159212670189C004806AC /* HistoryHorizontalScrollVC_HelpImage@3x.png */,
+			);
+			path = HistoryHorizontalScrollVC_HelpImage;
+			sourceTree = "<group>";
+		};
 		3F293D55248A12E100FA77D4 = {
 			isa = PBXGroup;
 			children = (
@@ -249,6 +281,8 @@
 		3FCBBB3824CC0DA500FE6542 /* HelpImages */ = {
 			isa = PBXGroup;
 			children = (
+				3F215926267018A2004806AC /* HistoryHorizontalScrollVC_HelpImage */,
+				3F21590C2670173D004806AC /* PlayerListVC_Help */,
 				3FCBBB8524CC124C00FE6542 /* Empty_Background */,
 				3FCBBB7E24CC111500FE6542 /* NewGameVC_HelpImage */,
 				3FCBBB7024CC10A500FE6542 /* GameListVC_HelpImage */,
@@ -507,18 +541,24 @@
 				3FCBBB4624CC0E0300FE6542 /* HistoryVC_HelpImage@2x.png in Resources */,
 				3FCBBB5824CC0F4700FE6542 /* Welcome2@2x.png in Resources */,
 				3F293D6B248A12EC00FA77D4 /* Assets.xcassets in Resources */,
+				3F21592A267018D8004806AC /* PlayerListVC_HelpImage@3x.png in Resources */,
 				3FCBBB5F24CC0F8400FE6542 /* Welcome1@3x.png in Resources */,
 				3FCBBB6824CC0FDC00FE6542 /* EditGameVC_HelpImage@1x.png in Resources */,
+				3F21592C267018D8004806AC /* PlayerListVC_HelpImage@2x.png in Resources */,
 				3FCBBB6F24CC104500FE6542 /* ChartVC_HelpImage@1x.png in Resources */,
 				3F3FE85324D41B11007F59A4 /* Welcome3@2x.png in Resources */,
 				3FCBBB7424CC10A500FE6542 /* GameListVC_HelpImage@3x.png in Resources */,
 				3FCBBB5924CC0F4700FE6542 /* Welcome2@3x.png in Resources */,
 				3FCBBB4524CC0E0300FE6542 /* HistoryVC_HelpImage@3x.png in Resources */,
+				3F2159252670189D004806AC /* HistoryHorizontalScrollVC_HelpImage@1x.png in Resources */,
 				3F3FE85224D41B11007F59A4 /* Welcome3@3x.png in Resources */,
 				3FCBBB6724CC0FDC00FE6542 /* EditGameVC_HelpImage@2x.png in Resources */,
 				3FCBBB7624CC10A500FE6542 /* GameListVC_HelpImage@1x.png in Resources */,
 				3FCBBB8424CC111500FE6542 /* NewGameVC_HelpImage@1x.png in Resources */,
+				3F21592B267018D8004806AC /* PlayerListVC_HelpImage.png in Resources */,
+				3F2159242670189D004806AC /* HistoryHorizontalScrollVC_HelpImage@3x.png in Resources */,
 				3FCBBB8B24CC124C00FE6542 /* Empty_BackGround@1x.png in Resources */,
+				3F2159232670189D004806AC /* HistoryHorizontalScrollVC_HelpImage@2x.png in Resources */,
 				3FCBBB8A24CC124C00FE6542 /* Empty_BackGround@2x.png in Resources */,
 				3FCBBB6624CC0FDC00FE6542 /* EditGameVC_HelpImage@3x.png in Resources */,
 				3FCBBB5A24CC0F4700FE6542 /* Welcome2.@1xpng in Resources */,

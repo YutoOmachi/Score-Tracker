@@ -15,6 +15,7 @@ class HistoryHorizontalScrollVC: UIViewController {
     var historyView: UICollectionView!
     var game: Game!
     var gameDataDelegate: GameDataDelegate?
+    let helpVC = HelpVC()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,9 +25,10 @@ class HistoryHorizontalScrollVC: UIViewController {
         initCollectionView()
         configureCollectionView()
         initPlayerNamesLabel()
+        setHelpVC()
         
         self.edgesForExtendedLayout = []
-//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle"), style: .plain, target: self, action:  #selector(displayHelp))
     }
 
     
@@ -41,7 +43,10 @@ class HistoryHorizontalScrollVC: UIViewController {
         height = height > 20 ? 20 : height
         
         // Gray block at the top
-        let grayBlock = UIView()
+        let grayBlock = UILabel()
+        grayBlock.text = "(Round)"
+        grayBlock.textAlignment = .center
+        grayBlock.textColor = .white
         grayBlock.backgroundColor = UIColor.whiteGray.withAlphaComponent(0.8)
         grayBlock.layer.borderColor = UIColor.gray.cgColor
         grayBlock.layer.borderWidth = 0.5
@@ -94,6 +99,29 @@ class HistoryHorizontalScrollVC: UIViewController {
         historyView.register(HistoryHorizontalScrollCell.self, forCellWithReuseIdentifier: "cell")
         historyView.dataSource = self
         historyView.delegate = self
+    }
+    
+    func setHelpVC() {
+        helpVC.modalPresentationStyle = .fullScreen
+        helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
+        let imagePath = Bundle.main.path(forResource: "HistoryHorizontalScrollVC_HelpImage\(RESOLUTION)", ofType: "png")
+        let image = UIImage(contentsOfFile: imagePath!)
+        helpVC.helpView.image = image
+    }
+    
+    @objc func displayHelp() {
+        helpVC.helpView.alpha = 0.0
+        helpVC.closeButton.alpha = 0.0
+        present(helpVC, animated: true) {
+            UIView.animate(withDuration: 1, animations: {
+                self.helpVC.helpView.alpha = 1.0
+                self.helpVC.closeButton.alpha = 1.0
+            })
+        }
+    }
+    
+    @objc func closeHelp() {
+        helpVC.dismiss(animated: true)
     }
 }
 

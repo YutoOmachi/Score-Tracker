@@ -103,7 +103,9 @@ class PlayerListVC: UIViewController {
     func setHelpVC() {
         helpVC.modalPresentationStyle = .fullScreen
         helpVC.closeButton.addTarget(self, action: #selector(closeHelp), for: .touchUpInside)
-        helpVC.helpView.image = UIImage(named: "PlayerListVC_HelpImage")
+        let imagePath = Bundle.main.path(forResource: "PlayerListVC_HelpImage\(RESOLUTION)", ofType: "png")
+        let image = UIImage(contentsOfFile: imagePath!)
+        helpVC.helpView.image = image
     }
     
     @objc func displayHelp() {
